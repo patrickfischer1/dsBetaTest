@@ -12,5 +12,6 @@ Depends:
     dsGraphics,
     dsModelling
 AggregateMethods:
+    meanSdGpDS,
     tTestFDS2
 AssignMethods:
