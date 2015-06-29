@@ -12,4 +12,5 @@ Depends:
     dsGraphics,
     dsModelling
 AggregateMethods:
+    tTestFDS2
 AssignMethods:
