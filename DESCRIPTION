@@ -13,5 +13,7 @@ Depends:
     dsModelling
 AggregateMethods:
     meanSdGpDS,
-    tTestFDS2
+    tTestFDS2,
+    lexisDS1.5
 AssignMethods:
+    lexisDS2.5
