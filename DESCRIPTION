@@ -2,8 +2,7 @@ Package: dsBetaTest
 Title: New DataSHIELD Server Functions
 Version: 0.0.2
 Authors@R: person("DataSHIELD", "Developers", email = "datashield-research@bristol.ac.uk", role = c("aut", "cre"))
-Description: 
-    Beta versions of new DataSHIELD server functions. Collected in this
+Description: Beta versions of new DataSHIELD server functions. Collected in this
     temporary package, prior to inclusion in the main DataSHIELD packages.
 License: GPLv3
 Depends:
@@ -11,9 +10,8 @@ Depends:
     dsStats,
     dsGraphics,
     dsModelling
-AggregateMethods:
-    meanSdGpDS,
+AggregateMethods: meanSdGpDS,
     tTestFDS2,
     lexisDS1.5
-AssignMethods:
-    lexisDS2.5
+AssignMethods: lexisDS2.5
+RoxygenNote: 5.0.1
