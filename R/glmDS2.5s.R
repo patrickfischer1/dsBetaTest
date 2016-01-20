@@ -1,4 +1,4 @@
-function (formula, family, beta.vect, offset, weights, data) {
+glmDS2.5s <- function (formula, family, beta.vect, offset, weights, data) {
   
 # Get the value of the 'data' parameter provided as character on the client side
 # Same is done for offset and weights lower down function

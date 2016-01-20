@@ -1,4 +1,4 @@
-function (formula, family, beta.vect, offset, weights, data) {
+glmREMADS <- function (formula, family, beta.vect, offset, weights, data) {
 
  
 # Get the value of the 'data' parameter provided as character on the client side
