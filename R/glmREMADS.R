@@ -1,3 +1,12 @@
+#' @title
+#' glmREMADS
+#'
+#' @description
+#' TODO
+#'
+#' @export
+#'
+
 glmREMADS <- function (formula, family, beta.vect, offset, weights, data) {
 
  

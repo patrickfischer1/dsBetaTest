@@ -1,3 +1,12 @@
+#' @title
+#' glmDS1.5s
+#'
+#' @description
+#' TODO
+#'
+#' @export
+#'
+
 glmDS1.5s <- function (formula, family, weights, data) {
   
   # get the value of the 'data' and 'weights' parameters provided as character on the client side
