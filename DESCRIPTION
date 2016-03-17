@@ -12,6 +12,11 @@ Depends:
     dsModelling
 AggregateMethods: meanSdGpDS,
     tTestFDS2,
-    lexisDS1.5
-AssignMethods: lexisDS2.5
+    lexisDS1.b,
+    glmDS1.b,
+    glmDS2.b,
+    asFactorDS1.b
+AssignMethods: lexisDS2.b,
+    lexisDS3.b,
+    asFactorDS2.b
 RoxygenNote: 5.0.1
