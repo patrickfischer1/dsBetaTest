@@ -15,6 +15,7 @@ AggregateMethods: meanSdGpDS,
     lexisDS1.b,
     glmDS1.b,
     glmDS2.b,
+    covDS.o,
     asFactorDS1.b
 AssignMethods: lexisDS2.b,
     lexisDS3.b,

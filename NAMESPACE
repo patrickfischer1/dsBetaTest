@@ -2,6 +2,7 @@
 
 export(asFactorDS1.b)
 export(asFactorDS2.b)
+export(covDS.o)
 export(glmDS1.b)
 export(glmDS2.b)
 export(lexisDS1.b)
