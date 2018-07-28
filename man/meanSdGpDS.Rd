@@ -9,4 +9,3 @@ meanSdGpDS(X, INDEX)
 \description{
 TODO: Alternative to meanByClassDS
 }
-

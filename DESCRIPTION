@@ -20,4 +20,4 @@ AggregateMethods: meanSdGpDS,
 AssignMethods: lexisDS2.b,
     lexisDS3.b,
     asFactorDS2.b
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

@@ -35,4 +35,3 @@ variables (i.e. the scalar product of each two vectors).
 \author{
 Gaye A., Avraam D., Burton P.
 }
-

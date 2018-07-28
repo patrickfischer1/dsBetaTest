@@ -9,4 +9,3 @@ tTestFDS2(formula, family, beta.vect, offset, weights, data)
 \description{
 TODO: t-test server side function
 }
-
