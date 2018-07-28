@@ -17,7 +17,7 @@
 #' @return an object of class factor
 #' @export
 #'
-asFactorDS2.b <- function(input.var.name=NULL, all.unique.levels.transmit=NULL, fixed.dummy.vars=NULL, baseline.level=NULL){
+asFactorDS2.o <- function(input.var.name=NULL, all.unique.levels.transmit=NULL, fixed.dummy.vars=NULL, baseline.level=NULL){
 
   input.var <- eval(parse(text=input.var.name))
 
@@ -47,4 +47,6 @@ return(factor.obj)
 
 }
 #ASSIGN FUNCTION
-#asFactorDS2.b
+# asFactorDS2.o
+
+

@@ -1,5 +1,5 @@
 #' @title
-#' glmDS2
+#' glmDS2.o
 #'
 #' @description
 #' This is the second serverside function called by ds.glm. It is an aggregation function that uses the model structure
@@ -10,22 +10,30 @@
 #'
 #' @export
 #'
-glmDS2.b<-function (formula, family, beta.vect, offset, weights, data) {
+glmDS2.o<-function (formula, family, beta.vect, offset, weights, dataName) {
 
-###########################
-#BUG CORRECT
-dataName<-data
-##################
+#############################################################
+#MODULE 1: CAPTURE THE nfilter SETTINGS                     #
+thr<-.AGGREGATE$listDisclosureSettingsDS.o()				#
+nfilter.tab<-as.numeric(thr$nfilter.tab)					#
+nfilter.glm<-as.numeric(thr$nfilter.glm)					#
+#nfilter.subset<-as.numeric(thr$nfilter.subset)         	#
+#nfilter.string<-as.numeric(thr$nfilter.string)             #
+#############################################################
+
+
+
 
 errorMessage2<-"No errors"
 # Get the value of the 'data' parameter provided as character on the client side
 # Same is done for offset and weights lower down function
 
-  if(is.null(data)){
-    dataTable <- NULL 
+ if(!is.null(dataName)){
+    dataDF <- eval(parse(text=dataName))
   }else{
-    dataTable <- eval(parse(text=data))
-  }
+	dataDF<-NULL
+	}
+
 
  
 # Rewrite formula extracting variables nested in strutures like data frame or list
@@ -65,14 +73,19 @@ varnames <- unique(varnames)
 
 #varnames.with.df<-varnames
 
-  if(!is.null(data)){
+  if(!is.null(dataName)){
       for(v in 1:length(varnames)){
 	varnames[v]<-paste0(dataName,"$",varnames[v])
-	cbindraw.text <- paste0("cbind(", paste(varnames, collapse=","), ")")
+	test.string<-paste0(dataName,"$","1")
+	if(varnames[v]==test.string)varnames[v]<-"1"
       }
+	  	cbindraw.text <- paste0("cbind(", paste(varnames, collapse=","), ")")
+		
   } else {
   	    cbindraw.text <- paste0("cbind(", paste(varnames, collapse=","), ")")
          }
+
+
 
 #Identify and use variable names to count missings
 #	cbindraw.text <- paste0("cbind(", paste(varnames, collapse=","), ")")
@@ -81,18 +94,9 @@ varnames <- unique(varnames)
 
 
 
-#COMMENTED OUT TRACER
-#return(list(varnames=varnames,all.data[1:10,]))
-#}
-#glmDS2.d #temp end
 
 
 #WORKS TO HERE
-######################## 
-
-
-
-
 
 ############################
 
@@ -113,7 +117,7 @@ varnames <- unique(varnames)
 # any dummy variables required for factors
  
     formula2use <- as.formula(paste0(Reduce(paste, deparse(originalFormula)))) # here we need the formula as a 'call' object
-    mod.glm.ds <- glm(formula2use, family=family, x=TRUE, control=glm.control(maxit=1), contrasts=NULL, data=dataTable)
+    mod.glm.ds <- glm(formula2use, family=family, x=TRUE, control=glm.control(maxit=1), contrasts=NULL, data=dataDF)
 
  X.mat.orig <- as.matrix(mod.glm.ds$x)
  y.vect.orig <-as.vector(mod.glm.ds$y)
@@ -252,6 +256,8 @@ numsubs<-length(y.vect)
   W.u.mat<-matrix(W.vect*u.vect)
   score.vect<-t(X.mat)%*%W.u.mat
 
+
+
 ##########################
 #BACKUP DISCLOSURE TRAP
 #If y, X or w data are invalid but user has modified clientside
@@ -265,10 +271,6 @@ numsubs<-length(y.vect)
 #Disclosure code from glmDS1
 
  dimX<-dim((X.mat))
-#SET FILTER THRESHOLDS
-#NEEDS SETTING FROM INTERNAL OPAL FILTERS
-filter.threshold.tab<-DANGER.nfilter.tab
-filter.threshold.glm<-DANGER.nfilter.glm
 
 ##############################################################
 #FIRST TYPE OF DISCLOSURE TRAP - TEST FOR OVERSATURATED MODEL#
@@ -277,30 +279,34 @@ filter.threshold.glm<-DANGER.nfilter.glm
  num.p<-dimX[2]
  num.N<-dimX[1]
    
- if(num.p>filter.threshold.glm*num.N){
+ if(num.p>nfilter.glm*num.N){
  glm.saturation.invalid<-1
- errorMessage2<-"FAILED: Model has too many parameters, there is a possible risk of disclosure - please simplify model"
- }
+ errorMessage<-"ERROR: Model has too many parameters, there is a possible risk of disclosure - please simplify model"
+ return(errorMessage) 
+}
+
 
 ################################
 #SECOND TYPE OF DISCLOSURE TRAP#
 ################################
 
-
 #CHECK Y VECTOR VALIDITY
 	y.invalid<-0
 
-	unique.values.y<-unique(y.vect)
-	unique.values.noNA.y<-unique.values.y[complete.cases(unique.values.y)]
+#COUNT NUMBER OF UNIQUE NON-MISSING VALUES - DISCLOSURE RISK ONLY ARISES WITH TWO LEVELS
+    unique.values.noNA.y<-unique(y.vect[complete.cases(y.vect)])
+
+#IF TWO LEVELS, CHECK WHETHER EITHER LEVEL 0 < n < nfilter.tab
 
 	if(length(unique.values.noNA.y)==2){
-		tabvar<-table(y.vect)[table(y.vect)>=1]
+		tabvar<-table(y.vect)[table(y.vect)>=1]   #tabvar COUNTS N IN ALL CATEGORIES WITH AT LEAST ONE OBSERVATION
 		min.category<-min(tabvar)
-		if(min.category<filter.threshold.tab){
+		if(min.category<nfilter.tab){
 		   y.invalid<-1
-		   errorMessage2<-"FAILED: y vector is binary with one category less than filter threshold for table cell size"
+		   errorMessage<-"ERROR: y vector is binary with one category less than filter threshold for table cell size"
 		   }
 		}
+
 
 #CHECK X MATRIX VALIDITY 
 #Check no dichotomous X vectors with between 1 and filter.threshold 
@@ -312,45 +318,44 @@ filter.threshold.glm<-DANGER.nfilter.glm
 	Xpar.invalid<-rep(0,num.Xpar)
 
   	for(pj in 1:num.Xpar){
-	unique.values<-unique(X.mat[,pj])
-	unique.values.noNA<-unique.values[complete.cases(unique.values)]
+	unique.values.noNA<-unique((X.mat[,pj])[complete.cases(X.mat[,pj])]) 
 
 	if(length(unique.values.noNA)==2){
-		tabvar<-table(X.mat[,pj])[table(X.mat[,pj])>=1]
+		tabvar<-table(X.mat[,pj])[table(X.mat[,pj])>=1] #tabvar COUNTS N IN ALL CATEGORIES WITH AT LEAST ONE OBSERVATION
 		min.category<-min(tabvar)
-		if(min.category<filter.threshold.tab){
+		if(min.category<nfilter.tab){
 		    Xpar.invalid[pj]<-1
-		    errorMessage2<-"FAILED: at least one column in X matrix is binary with one category less than filter threshold for table cell size"
+		    errorMessage<-"ERROR: at least one column in X matrix is binary with one category less than filter threshold for table cell size"
             }
 	   }
 	}
 
 
+
+
 #CHECK W VECTOR VALIDITY
 	w.invalid<-0
 
-#Keep same object name as in glmDS1
+	#Keep same object name as in glmDS1
 	w.vect<-weightsvar
 
-	unique.values.w<-unique(w.vect)
-	unique.values.noNA.w<-unique.values.w[complete.cases(unique.values.w)]
+	unique.values.noNA.w<-unique(w.vect[complete.cases(w.vect)])
 
 	if(length(unique.values.noNA.w)==2){
-		tabvar<-table(w.vect)[table(w.vect)>=1]
+		tabvar<-table(w.vect)[table(w.vect)>=1]   #tabvar COUNTS N IN ALL CATEGORIES WITH AT LEAST ONE OBSERVATION
 		min.category<-min(tabvar)
-		if(min.category<=filter.threshold.tab){
+		if(min.category<nfilter.tab){
         w.invalid<-1
-		errorMessage2<-"FAILED: w vector is binary with one category less than filter threshold for table cell size"
+		errorMessage<-"ERROR: w vector is binary with one category less than filter threshold for table cell size"
             }
 	}
 
-
-
+	
 
 disclosure.risk<-0
 
 ########################################################################
-#If there is a disclosure risk destroy the info.matrix and score.vector#
+#If there is a disclosure risk DESTROY the info.matrix and score.vector#
 ########################################################################
 
 if(y.invalid>0||w.invalid>0||sum(Xpar.invalid)>0||glm.saturation.invalid>0){
@@ -364,5 +369,9 @@ if(y.invalid>0||w.invalid>0||sum(Xpar.invalid)>0||glm.saturation.invalid>0){
 	        Nvalid=Nvalid,Nmissing=Nmissing,Ntotal=Ntotal,disclosure.risk=disclosure.risk,
               errorMessage2=errorMessage2
               ))  
+			  
+
+
 }
-#glmDS2.b
+#AGGREGATE FUNCTION
+# glmDS2.o

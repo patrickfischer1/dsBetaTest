@@ -10,10 +10,17 @@
 #'
 #' @export
 #'
-lexisDS2.b<-function(datatext=NULL, intervalWidth, maxmaxtime, idCol, entryCol, exitCol, statusCol, vartext=NULL){
+lexisDS2.o<-function(datatext=NULL, intervalWidth, maxmaxtime, idCol, entryCol, exitCol, statusCol, vartext=NULL){
 
-nfilter.tab<-DANGER.nfilter.tab
-nfilter.glm<-DANGER.nfilter.glm
+#############################################################
+#MODULE 1: CAPTURE THE nfilter SETTINGS                     #
+thr<-.AGGREGATE$listDisclosureSettingsDS.o()				#
+nfilter.tab<-as.numeric(thr$nfilter.tab)					#
+nfilter.glm<-as.numeric(thr$nfilter.glm)					#
+#nfilter.subset<-as.numeric(thr$nfilter.subset)         	#
+#nfilter.string<-as.numeric(thr$nfilter.string)             #
+#############################################################
+
 
 
 	starttime<-eval(parse(text=entryCol))
@@ -72,7 +79,7 @@ code.input<-intervalWidth
 code.c<-unlist(strsplit(code.input, split=","))
 code.n<-as.numeric(code.c)
 
-#In this case, code must only contain numeric elements split by "'",
+#In this case, code must only contain numeric elements split by ",",
 #anything else will fail outright or will have returned an NA to
 #code.num and so the following sum will exceed 0
 
@@ -185,28 +192,46 @@ cens.matrix<-matrix(0,totsubs,totints)
 idSeq.matrix<-matrix(0,totsubs,totints)
 
 
-numperiods.exposed<-rep(0,totsubs)
+#ERROR IN ORIGINAL lexisDS2 CORRECTED
 
+###ERR numperiods.exposed<-rep(0,totsubs)
+first.int.exposed<-rep(1,totsubs)
+last.int.exposed<-rep(0,totsubs)
 
 for(j in 1:totints){
-	numperiods.exposed<-numperiods.exposed+(start.breaks[j]<SURVTIME)
+###ERR	numperiods.exposed<-numperiods.exposed+(start.breaks[j]<SURVTIME) #ERROR AS MISCOUNTS IF EXPLICIT (NON 0) STARTIME VECTOR SPECIFIED
+
+	first.int.exposed<-first.int.exposed+(end.breaks[j]<STARTTIME)
+	last.int.exposed<-last.int.exposed+(start.breaks[j]<=ENDTIME)
 }
-
-
-
 #NEED TO ADD DUMMY COLUMNS TO HARMLESSLY DIRECT NA VALUES IN numperiods.exposed
 
 
 for(m in 1:totints){
 
-			survival.matrix[,m]<-(m<numperiods.exposed)*period.surv[m]+
-						(m>=numperiods.exposed)*(SURVTIME-start.breaks[m])	
-			cens.matrix[,m]<-(m<numperiods.exposed)*0+
-						(m>=numperiods.exposed)*CENS	
+			survival.matrix[,m]<-	
+									(#1
+									((last.int.exposed>first.int.exposed)*
+											(
+												((m==first.int.exposed)*(end.breaks[m]-STARTTIME))+
+												(((m>first.int.exposed)&(m<last.int.exposed))*period.surv[m])+
+												((m==last.int.exposed)*(ENDTIME - start.breaks[m]))
+											 ))+
+
+									((last.int.exposed==first.int.exposed)*
+												(((m==first.int.exposed)&(m==last.int.exposed))*(ENDTIME-STARTTIME)))
+									)#1			
+									
+											 
+			
+			cens.matrix[,m]<-(m!=last.int.exposed)*0+
+						(m==last.int.exposed)*CENS	
 			idSeq.matrix[,m]<- idSeq
 
 
 }
+
+
 
 idSeq.vector<-as.vector(idSeq.matrix)
 cens.vector<-as.vector(cens.matrix)
@@ -228,8 +253,12 @@ idSeq.vector<-as.vector(t(idSeq.matrix))
 cens.vector<-as.vector(t(cens.matrix))
 survival.vector<-as.vector(t(survival.matrix))
 
+######################################################################
+##########ERROR NEEDS CORRECTING
 time.id.vector<-ave(idSeq.vector,idSeq.vector,FUN=seq_along)
 
+time.id.vector<-time.id.vector+first.int.exposed[idSeq.vector]-1
+######################################################################
 
 
 expanded.template<-cbind(idSeq.vector,time.id.vector,survival.vector,cens.vector)
@@ -254,7 +283,7 @@ names(expanded.table)<-var.names.vector
 
 	tabvar<-table(time.id.vector,useNA="no")[table(time.id.vector,useNA="no")>=1]
 	min.category<-min(tabvar)
-	if(min.category<DANGER.nfilter.tab)time.intervals.invalid<-1
+	if(min.category<nfilter.tab)time.intervals.invalid<-1
 
 #TERMINATE CALCULATION IF time.intervals.invalid==1
 if(time.intervals.invalid==1){
@@ -266,6 +295,5 @@ if(time.intervals.invalid==1){
 return(list(expanded.table=expanded.table))
 
 }
-#MUST BE ASSIGN FUNCTION
-#lexisDS2.b
-
+#ASSIGN FUNCTION
+# lexisDS2.o

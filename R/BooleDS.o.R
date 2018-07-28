@@ -1,0 +1,121 @@
+function(V1.name=NULL, V2.name=NULL, Boolean.operator.n=NULL, na.assign.text, numeric.output=TRUE){
+
+#############################################################
+#MODULE 1: CAPTURE THE nfilter SETTINGS                     #
+thr<-.AGGREGATE$listDisclosureSettingsDS.o()				#
+nfilter.tab<-as.numeric(thr$nfilter.tab)					#
+#nfilter.glm<-as.numeric(thr$nfilter.glm)					#
+#nfilter.subset<-as.numeric(thr$nfilter.subset)         	#
+#nfilter.string<-as.numeric(thr$nfilter.string)             #
+#############################################################
+
+
+#V1: numeric, factor or logical vector or scalar in .GlobalEnv
+#V2: numeric, factor or logical vector or scalar in .GlobalEnv or client specified scalar with which to compare V1
+
+#EVAL V1 and V2
+
+##########CHECK NOT LONG SPECIFIED VECTOR##############
+
+V1<-eval(parse(text=V1.name))
+V2<-eval(parse(text=V2.name))
+
+
+if(is.character(V1)){
+   studysideMessage<-"FAILED: V_i is character, please convert to numeric, factor or logical before running Boole"
+   return(list(studysideMessage=studysideMessage))
+   }
+
+if(is.character(V2)){
+   studysideMessage<-"FAILED: V_ii is character, please convert to numeric, factor or logical before running Boole"
+   return(list(studysideMessage=studysideMessage))
+   }
+
+V1.length<-length(V1)   
+V2.length<-length(V2)
+
+if(!((V1.length == V2.length) | (V2.length==1))){
+   studysideMessage<-"FAILED: V_ii must either be of length one or of length equal to V_i"
+   return(list(studysideMessage=studysideMessage))
+}
+
+if(!is.numeric(Boolean.operator.n) | Boolean.operator.n==0){
+   studysideMessage<-"FAILED: Boolean.operator specified incorrectly. Must be: '==', '!=', '<', '<=', '>' or '>='"
+   return(list(studysideMessage=studysideMessage))
+}
+
+Boolean.operator<-"  "
+if(Boolean.operator.n==1) Boolean.operator<-"=="
+if(Boolean.operator.n==2) Boolean.operator<-"!="
+if(Boolean.operator.n==3) Boolean.operator<-"<"
+if(Boolean.operator.n==4) Boolean.operator<-"<="
+if(Boolean.operator.n==5) Boolean.operator<-">"
+if(Boolean.operator.n==6) Boolean.operator<-">="
+
+
+#APPLY BOOLEAN OPERATOR SPECIFIED
+
+Boolean.indicator<-integer(length=V1.length)
+
+#EVALUATE DIFFERENTLY IF V2 IS SAME LENGTH AS V1 OR OF LENGTH 1
+if(V2.length==V1.length){
+for(j in 1:V1.length){
+command.text<-paste0(V1.name,"[",j,"]",Boolean.operator,V2.name,"[",j,"]")
+Boolean.indicator[j]<-eval(parse(text=command.text))*1
+}
+}
+
+if(V2.length==1){
+for(j in 1:V1.length){
+command.text<-paste0(V1.name,"[",j,"]",Boolean.operator,V2.name)
+Boolean.indicator[j]<-eval(parse(text=command.text))*1
+}
+}
+
+
+#BY DEFAULT NAs REMAIN AS NAs BUT IF YOU WANT TO YOU CAN FORCE THEM TO 1 OR 0 USING <na.assign> ARGUMENT
+
+if(na.assign.text=="1"){
+Boolean.indicator[is.na(Boolean.indicator)==1]<-1
+}
+
+if(na.assign.text=="0"){
+Boolean.indicator[is.na(Boolean.indicator)==1]<-0
+}
+
+
+outobj.b<-as.logical(Boolean.indicator)
+outobj<-Boolean.indicator
+
+
+
+
+#CHECK OUTPUT VECTOR VALIDITY
+	outobj.invalid<-0
+
+	unique.values.outobj<-unique(outobj)
+	unique.values.noNA.outobj<-unique.values.outobj[complete.cases(unique.values.outobj)]
+
+	#Boolean and can therefore only be binary so check this:
+	if(length(unique.values.noNA.outobj)>2) outobj.invalid<-1
+
+	tabvar<-table(outobj,useNA="no")[table(outobj,useNA="no")>=1]
+	min.category<-min(tabvar)
+	if(min.category<=nfilter.tab)outobj.invalid<-1
+
+#TERMINATE CALCULATION IF outobj.invalid==1
+if(outobj.invalid==1){
+   studysideMessage<-"FAILED: outobj has at least one category below table filter limit"
+   return(list(studysideMessage=studysideMessage))
+}
+
+
+
+if(numeric.output==TRUE){
+   Boole.obj<-outobj
+   }else{Boole.obj<-outobj.b}
+return(Boole.obj)
+}
+#ASSIGN FUNCTION
+# BooleDS.o
+

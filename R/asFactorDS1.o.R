@@ -9,7 +9,7 @@
 #' @return the levels of the input variable.
 #' @export
 #'
-asFactorDS1.b <- function(input.var.name=NULL){
+asFactorDS1.o <- function(input.var.name=NULL){
 
   input.var <- eval(parse(text=input.var.name))
   factor.levels.present.in.source <- levels(factor(input.var)) 
@@ -18,6 +18,9 @@ return(factor.levels.present.in.source)
 
 }
 #AGGREGATE FUNCTION
-#asFactorDS1.b
+# asFactorDS1.o
+
+
+
 
 

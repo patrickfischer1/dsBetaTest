@@ -9,13 +9,12 @@
 #'
 #' @export
 #'
-lexisDS3.b<-function(){
+lexisDS3.o<-function(){
 
       outobj<-data.frame(messageobj$expanded.table)
 
 return(outobj)
 
 }
-#MUST BE ASSIGN FUNCTION
-#lexisDS3.b
-
+#ASSIGN FUNCTION
+# lexisDS3.o

@@ -8,9 +8,21 @@
 #'
 #' @export
 #'
-glmDS1.b<-function (formula, family, weights, data) {
+glmDS1.o<-function (formula, family, weights, data){
 
 errorMessage="No errors"
+
+#############################################################
+#MODULE 1: CAPTURE THE nfilter SETTINGS                     #
+thr<-.AGGREGATE$listDisclosureSettingsDS.o()				#
+nfilter.tab<-as.numeric(thr$nfilter.tab)					#
+nfilter.glm<-as.numeric(thr$nfilter.glm)					#
+#nfilter.subset<-as.numeric(thr$nfilter.subset)         	#
+#nfilter.string<-as.numeric(thr$nfilter.string)             #
+#############################################################
+
+
+
 
   # get the value of the 'data' and 'weights' parameters provided as character on the client side
   if(is.null(data)){
@@ -59,24 +71,21 @@ errorMessage="No errors"
    
 
 
- ##########################
 
-
-filter.threshold.tab<-DANGER.nfilter.tab
-filter.threshold.glm<-DANGER.nfilter.glm
 
  ##############################################################
  #FIRST TYPE OF DISCLOSURE TRAP - TEST FOR OVERSATURATED MODEL#
+ #TEST AGAINST nfilter.glm									  #
  ##############################################################
 
  glm.saturation.invalid<-0
  num.p<-dimX[2]
  num.N<-dimX[1]
    
- if(num.p>filter.threshold.glm*num.N){
+ if(num.p>nfilter.glm*num.N){
  glm.saturation.invalid<-1
- errorMessage<-"FAILED: Model has too many parameters, there is a possible risk of disclosure - please simplify model"
- return(errorMessage) 
+ errorMessage<-"ERROR: Model has too many parameters, there is a possible risk of disclosure - please simplify model"
+ #DELETE return(errorMessage) 
 }
    
    
@@ -88,6 +97,8 @@ filter.threshold.glm<-DANGER.nfilter.glm
 	ftext <- paste0("cbind(",weights,")")
 	w.vect <- eval(parse(text=ftext))
 	}
+
+
 
 ################################
 #SECOND TYPE OF DISCLOSURE TRAP#
@@ -105,15 +116,17 @@ filter.threshold.glm<-DANGER.nfilter.glm
 #CHECK Y VECTOR VALIDITY
 	y.invalid<-0
 
-	unique.values.y<-unique(y.vect)
-	unique.values.noNA.y<-unique.values.y[complete.cases(unique.values.y)]
+#COUNT NUMBER OF UNIQUE NON-MISSING VALUES - DISCLOSURE RISK ONLY ARISES WITH TWO LEVELS
+    unique.values.noNA.y<-unique(y.vect[complete.cases(y.vect)])
+
+#IF TWO LEVELS, CHECK WHETHER EITHER LEVEL 0 < n < nfilter.tab
 
 	if(length(unique.values.noNA.y)==2){
-		tabvar<-table(y.vect)[table(y.vect)>=1]
+		tabvar<-table(y.vect)[table(y.vect)>=1]   #tabvar COUNTS N IN ALL CATEGORIES WITH AT LEAST ONE OBSERVATION
 		min.category<-min(tabvar)
-		if(min.category<filter.threshold.tab){
+		if(min.category<nfilter.tab){
 		   y.invalid<-1
-		   errorMessage<-"FAILED: y vector is binary with one category less than filter threshold for table cell size"
+		   errorMessage<-"ERROR: y vector is binary with one category less than filter threshold for table cell size"
 		   }
 		}
 
@@ -127,15 +140,14 @@ filter.threshold.glm<-DANGER.nfilter.glm
 	Xpar.invalid<-rep(0,num.Xpar)
 
   	for(pj in 1:num.Xpar){
-	unique.values<-unique(X.mat[,pj])
-	unique.values.noNA<-unique.values[complete.cases(unique.values)]
+	unique.values.noNA<-unique((X.mat[,pj])[complete.cases(X.mat[,pj])]) 
 
 	if(length(unique.values.noNA)==2){
-		tabvar<-table(X.mat[,pj])[table(X.mat[,pj])>=1]
+		tabvar<-table(X.mat[,pj])[table(X.mat[,pj])>=1] #tabvar COUNTS N IN ALL CATEGORIES WITH AT LEAST ONE OBSERVATION
 		min.category<-min(tabvar)
-		if(min.category<filter.threshold.tab){
+		if(min.category<nfilter.tab){
 		    Xpar.invalid[pj]<-1
-		    errorMessage<-"FAILED: at least one column in X matrix is binary with one category less than filter threshold for table cell size"
+		    errorMessage<-"ERROR: at least one column in X matrix is binary with one category less than filter threshold for table cell size"
             }
 	   }
 	}
@@ -144,15 +156,14 @@ filter.threshold.glm<-DANGER.nfilter.glm
 #CHECK W VECTOR VALIDITY
 	w.invalid<-0
 
-	unique.values.w<-unique(w.vect)
-	unique.values.noNA.w<-unique.values.w[complete.cases(unique.values.w)]
+	    unique.values.noNA.w<-unique(w.vect[complete.cases(w.vect)])
 
 	if(length(unique.values.noNA.w)==2){
-		tabvar<-table(w.vect)[table(w.vect)>=1]
+		tabvar<-table(w.vect)[table(w.vect)>=1]   #tabvar COUNTS N IN ALL CATEGORIES WITH AT LEAST ONE OBSERVATION
 		min.category<-min(tabvar)
-		if(min.category<=filter.threshold.tab){
+		if(min.category<nfilter.tab){
         w.invalid<-1
-		errorMessage<-"FAILED: w vector is binary with one category less than filter threshold for table cell size"
+		errorMessage<-"ERROR: w vector is binary with one category less than filter threshold for table cell size"
             }
 	}
 
@@ -167,8 +178,8 @@ filter.threshold.glm<-DANGER.nfilter.glm
 return(list(dimX=dimX,coef.names=coef.names,y.invalid=y.invalid,Xpar.invalid=Xpar.invalid,w.invalid=w.invalid,
        glm.saturation.invalid=glm.saturation.invalid,errorMessage=errorMessage))
   
-  
+ 
+
 }
-#glmDS1.b
-
-
+#AGGREGATE FUNCTION
+# glmDS1.o
