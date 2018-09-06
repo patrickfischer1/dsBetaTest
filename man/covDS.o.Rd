@@ -32,6 +32,10 @@ control then all the output values are replaced with NAs
 This function computes the sum of each vector of variable and the sum of the products of each two
 variables (i.e. the scalar product of each two vectors).
 }
+\details{
+computes the sum of each vector of variable and the sum of the products of each two
+variables
+}
 \author{
 Gaye A., Avraam D., Burton P.
 }

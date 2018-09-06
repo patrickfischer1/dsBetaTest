@@ -1,6 +1,6 @@
 Package: dsBetaTest
 Title: New DataSHIELD Server Functions
-Version: 0.0.6
+Version: 0.0.7
 Authors@R: person("DataSHIELD", "Developers", email = "datashield-research@bristol.ac.uk", role = c("aut", "cre"))
 Description: Beta versions of new DataSHIELD server functions. Collected in this
     temporary package, prior to inclusion in the main DataSHIELD packages.
@@ -12,12 +12,18 @@ Depends:
     dsModelling
 AggregateMethods: meanSdGpDS,
     tTestFDS2,
-    lexisDS1.b,
-    glmDS1.b,
-    glmDS2.b,
+    lexisDS1.o,
+    glmDS1.o,
+    glmDS2.o,
     covDS.o,
-    asFactorDS1.b
-AssignMethods: lexisDS2.b,
-    lexisDS3.b,
-    asFactorDS2.b
+    asFactorDS1.o
+	meanDS.o
+	recodeValuesDS1.o
+	rilmDS.b
+	testObjExistsDS.o
+AssignMethods: lexisDS2.o,
+    lexisDS3.o,
+    asFactorDS2.o
+	BooleDS.o
+	recodeValuesDS2.o
 RoxygenNote: 6.0.1

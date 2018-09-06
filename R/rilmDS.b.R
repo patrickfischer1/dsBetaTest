@@ -1,11 +1,17 @@
 #' 
 #' @title Generates matrices for the sum of squares
-#' @description This function creates matrices having elements the sum of squares that will be used on random intercept linear model method.
-#' @details This function returns a list with four elements. The first is the length of a variable's vector when we remove from the data frame any rows with NAs.   
-#' @param ...
-#' @param yvar
-#' @return 
-#' @author 
+#' @description This function creates matrices having elements the sum of
+#' squares that will be used on random intercept linear model method.
+#' @details This function returns a list with four elements. The first is the
+#' length of a variable's vector when we remove from the data frame any rows
+#' with NAs.   
+#' @param ..., any explanatory variables
+#' @param yvar, the outcome variable
+#' @return (i) the number of complete cases, (ii) the sum of squares of 
+#' explanatory variables, (iii) the sum of products of each explanatory
+#' variable with the outcome variable, and (iv) the sum of squares of the
+#' outcome variable 
+#' @author Avraam, D.
 #' @export
 #' 
 rilmDS.b <- function (..., yvar){

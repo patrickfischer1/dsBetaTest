@@ -1,4 +1,13 @@
-function(var.name.text=NULL, values2replace.text=NULL, new.values.text=NULL,numeric.output.format.possible,force.output.format="no",v2r.numeric=NULL){
+#'
+#' @title recodeValuesDS2
+#'
+#' @description
+#' The second serverside function called by ds.recodeValues. This is assign function.
+#' @details For more details see the extensive header for ds.recodeValues.
+#'
+#' @export
+#'
+recodeValuesDS2.o <- function(var.name.text=NULL, values2replace.text=NULL, new.values.text=NULL,numeric.output.format.possible,force.output.format="no",v2r.numeric=NULL){
 
 #############################################################
 #MODULE 1: CAPTURE THE nfilter SETTINGS                     #

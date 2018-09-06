@@ -1,4 +1,13 @@
-function(exitCol=NULL){
+#' @title
+#' lexisDS1
+#'
+#' @description
+#' The first serverside function called by ds.lexis. This is aggregate function.
+#' For more details see the extensive header for ds.lexis.
+#'
+#' @export
+#'
+lexisDS1.o <- function(exitCol=NULL){
 
 #############################################################
 #MODULE 1: CAPTURE THE nfilter SETTINGS                     #

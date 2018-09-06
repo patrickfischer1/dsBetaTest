@@ -1,7 +1,9 @@
 #' 
 #' @title Computes the sum of each variable and the sum of products for each pair of variables
 #' @description This function computes the sum of each vector of variable and the sum of the products of each two
-#' variables (i.e. the scalar product of each two vectors). 
+#' variables (i.e. the scalar product of each two vectors).
+#' @details computes the sum of each vector of variable and the sum of the products of each two
+#' variables
 #' @param x a character, the name of a vector, matrix or dataframe of variable(s) for which the covariance(s) and the
 #' correlation(s) is (are) going to calculated for.
 #' @param y NULL (default) or the name of a vector, matrix or dataframe with compatible dimensions to x. 

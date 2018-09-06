@@ -1,4 +1,20 @@
-function(V1.name=NULL, V2.name=NULL, Boolean.operator.n=NULL, na.assign.text, numeric.output=TRUE){
+#' 
+#' @title BooleDS.o
+#' @description Converts the individual elements of a vector or other object into Boolean indicators.
+#' @details The function converts the input vector into Boolean indicators.
+#' @param V1.name A character string specifying the name of the vector to which the Boolean operator is to be applied
+#' @param V2.name A character string specifying the name of the vector or scalar to which <V1> is to be compared.
+#' @param Boolean.operator A character string specifying one of six possible Boolean operators: '==', '!=', '>', '>=',
+#' '<', '<='
+#' @param numeric.output a TRUE/FALSE indicator defaulting to TRUE determining whether the final output variable
+#' should be of class numeric (1/0) or class logical (TRUE/FALSE).
+#' @param na.assign A character string taking values 'NA', '1' or '0'. If 'NA' then any NA values in the
+#' input vector remain as NAs in the output vector. If '1' or '0' NA values in the input vector are
+#' all converted to 1 or 0 respectively.#' @return the levels of the input variable.
+#' @author Burton PR
+#' @export
+#'
+BooleDS.o <- function(V1.name=NULL, V2.name=NULL, Boolean.operator.n=NULL, na.assign.text, numeric.output=TRUE){
 
 #############################################################
 #MODULE 1: CAPTURE THE nfilter SETTINGS                     #

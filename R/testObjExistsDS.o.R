@@ -1,4 +1,13 @@
-testObjExistsDS.o<- function(test.obj.name=NULL){
+#'
+#' @title testObjExistsDS
+#'
+#' @description
+#' This is aggregate function.
+#' @details For more details see the extensive header for ds.testObjExists
+#'
+#' @export
+#'
+testObjExistsDS.o <- function(test.obj.name=NULL){
 
   test.obj.exists<-FALSE
   test.obj.class<-NULL
