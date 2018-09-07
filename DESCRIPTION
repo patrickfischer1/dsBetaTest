@@ -17,13 +17,13 @@ AggregateMethods: meanSdGpDS,
     glmDS2.o,
     covDS.o,
     asFactorDS1.o
-	meanDS.o
-	recodeValuesDS1.o
-	rilmDS.b
-	testObjExistsDS.o
+    meanDS.o
+    recodeValuesDS1.o
+    rilmDS.b
+    testObjExistsDS.o
 AssignMethods: lexisDS2.o,
     lexisDS3.o,
     asFactorDS2.o
-	BooleDS.o
-	recodeValuesDS2.o
+    BooleDS.o
+    recodeValuesDS2.o
 RoxygenNote: 6.0.1
