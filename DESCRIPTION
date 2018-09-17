@@ -1,11 +1,7 @@
 Package: dsBetaTest
 Title: New DataSHIELD Server Functions
-Version: 0.0.7
-<<<<<<< HEAD
-Authors@R: person("DataSHIELD", "Developers", email = "datashield-research@bristol.ac.uk", role = c("aut", "cre"))
-=======
+Version: 0.0.11
 Authors@R: person("DataSHIELD", "Developers", email = "datashield@newcastle.ac.uk", role = c("aut", "cre"))
->>>>>>> 3d559fc485d646dd1d6f7cfff9509382be75ed58
 Description: Beta versions of new DataSHIELD server functions. Collected in this
     temporary package, prior to inclusion in the main DataSHIELD packages.
 License: GPLv3
