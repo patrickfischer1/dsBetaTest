@@ -11,7 +11,7 @@
 #' explanatory variables, (iii) the sum of products of each explanatory
 #' variable with the outcome variable, and (iv) the sum of squares of the
 #' outcome variable 
-#' @author Avraam, D.
+#' @author Avraam D; Jones EM; van den Heuvel ER
 #' @export
 #' 
 rilmDS.b <- function (..., yvar){

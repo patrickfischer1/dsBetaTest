@@ -26,4 +26,5 @@ AssignMethods: lexisDS2.o,
     asFactorDS2.o,
     BooleDS.o,
     recodeValuesDS2.o
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
+Encoding: UTF-8

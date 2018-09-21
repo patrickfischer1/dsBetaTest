@@ -27,5 +27,5 @@ length of a variable's vector when we remove from the data frame any rows
 with NAs.
 }
 \author{
-Avraam, D.
+Avraam D; Jones EM; van den Heuvel ER
 }
