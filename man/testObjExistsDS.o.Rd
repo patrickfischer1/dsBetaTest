@@ -2,13 +2,20 @@
 % Please edit documentation in R/testObjExistsDS.o.R
 \name{testObjExistsDS.o}
 \alias{testObjExistsDS.o}
-\title{testObjExistsDS}
+\title{testObjExistsDS.o}
 \usage{
 testObjExistsDS.o(test.obj.name = NULL)
 }
-\description{
-This is aggregate function.
+\arguments{
+\item{test.obj.name}{a clientside provided character string specifying the variable
+whose presence is to be tested in each data source}
 }
-\details{
-For more details see the extensive header for ds.testObjExists
+\description{
+The serverside function that tests whether a given object exists in
+all sources. It is called at the end of all
+recently written assign functions to check the new (assigned) object has been
+created in all sources
+}
+\author{
+Burton PR
 }

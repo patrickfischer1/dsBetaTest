@@ -2,10 +2,32 @@
 % Please edit documentation in R/tTestFDS2.R
 \name{tTestFDS2}
 \alias{tTestFDS2}
-\title{TODO: tTestFDS2}
+\title{tTestFDS2}
 \usage{
 tTestFDS2(formula, family, beta.vect, offset, weights, data)
 }
+\arguments{
+\item{formula}{a clientside provided character string specifying a glm() formula consistent with R syntax which specifies a t-test}
+
+\item{family}{a glm() family consistent with R syntax and a t-test: must be "gaussian"}
+
+\item{beta.vect}{a numeric vector created by the clientside function specifying the
+vector of regression coefficients at the current iteration}
+
+\item{offset}{an optional variable providing a regression offset}
+
+\item{weights}{an optional variable providing regression weights}
+
+\item{data}{an optional character string specifying a data.frame object holding
+the data to be analysed under the specified model same}
+}
 \description{
-TODO: t-test server side function
+This is the second serverside function called by ds.tTestF. This is a modified version of the ds.glm function
+coded specifically to undertake an unpaired t-test analysis specified using a glm formula.
+}
+\details{
+For more details please see the extensive headers for ds.tTestF and ds.glm.o
+}
+\author{
+Burton PR;Gaye,A;Laflamme,P
 }

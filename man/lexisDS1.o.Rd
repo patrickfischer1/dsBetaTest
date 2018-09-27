@@ -6,7 +6,13 @@
 \usage{
 lexisDS1.o(exitCol = NULL)
 }
+\arguments{
+\item{exitCol}{a character string specifying the variable holding the time that each individual is censored or fails}
+}
 \description{
-The first serverside function called by ds.lexis. This is aggregate function.
+The first serverside function called by ds.lexis. This is an aggregate function.
 For more details see the extensive header for ds.lexis.
+}
+\author{
+Burton PR
 }

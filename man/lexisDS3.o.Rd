@@ -2,7 +2,8 @@
 % Please edit documentation in R/lexisDS3.o.R
 \name{lexisDS3.o}
 \alias{lexisDS3.o}
-\title{lexisDS3}
+\title{@title
+lexisDS3}
 \usage{
 lexisDS3.o()
 }

@@ -7,9 +7,25 @@
 recodeValuesDS1.o(var.name.text = NULL, values2replace.text = NULL,
   new.values.text = NULL)
 }
+\arguments{
+\item{var.name.text}{a clientside specified character string identifying the
+variable to be recoded}
+
+\item{values2replace.text}{a clientside specified character string identifying the
+original values to be changed}
+
+\item{new.values.text}{a clientside specified character string identifying the new
+values to be allocated
+the values identified by values2replace.text and new.values.text are of the same
+length and in the same order}
+}
 \description{
-The first serverside function called by ds.recodeValues. This is aggregate function.
+The first serverside function called by ds.recodeValues.o This is an
+aggregate function.
 }
 \details{
-For more details see the extensive header for ds.recodeValues.
+For more details see the extensive header for ds.recodeValues.o
+}
+\author{
+Burton PR
 }

@@ -6,10 +6,34 @@
 \usage{
 glmDS2.o(formula, family, beta.vect, offset, weights, dataName)
 }
+\arguments{
+\item{formula}{a glm() formula consistent with R syntax eg U~x+y+Z to regress
+variables U on x,y and Z}
+
+\item{family}{a glm() family consistent with R syntax eg "gaussian", "poisson",
+"binomial"}
+
+\item{beta.vect}{a numeric vector created by the clientside function specifying the
+vector of regression coefficients at the current iteration}
+
+\item{offset}{an optional variable providing a regression offset}
+
+\item{weights}{an optional variable providing regression weights}
+
+\item{dataName}{an optional character string specifying a data.frame object holding
+the data to be analysed under the specified model same}
+}
 \description{
-This is the second serverside function called by ds.glm. It is an aggregation function that uses the model structure
-and starting beta.vector constructed by glmDS1 to iteratively fit the generalized linear model that has been
-been specified. The function glmDS2 also carries out a series of disclosure checks and if the arguments or data fail any of those tests,
-model construction is blocked and an appropriate serverside error message is created and returned to ds.glm on the clientside.
+This is the second serverside function called by ds.glm.o. It is an
+aggregation function that uses the model structure
+and starting beta.vector constructed by glmDS1.o to iteratively fit the generalized
+linear model that has been
+been specified. The function glmDS2.o also carries out a series of disclosure
+checks and if the arguments or data fail any of those tests,
+model construction is blocked and an appropriate serverside error message is
+created and returned to ds.glm.o on the clientside.
 For more details please see the extensive header for ds.glm.
+}
+\author{
+Burton PR
 }

@@ -2,10 +2,21 @@
 % Please edit documentation in R/meanSdGpDS.R
 \name{meanSdGpDS}
 \alias{meanSdGpDS}
-\title{TODO: MeanSdGpDS}
+\title{MeanSdGpDS}
 \usage{
 meanSdGpDS(X, INDEX)
 }
+\arguments{
+\item{X}{a clientside supplied character string identifying the variable for which
+means/SDs are to be calculated}
+
+\item{INDEX}{a clientside supplied character string identifying the factor across
+which means/SDs are to be calculated}
+}
 \description{
-TODO: Alternative to meanByClassDS
+Computes the mean and standard deviation across groups defined by one
+factor
+}
+\author{
+Burton PR
 }

@@ -8,9 +8,37 @@ recodeValuesDS2.o(var.name.text = NULL, values2replace.text = NULL,
   new.values.text = NULL, numeric.output.format.possible,
   force.output.format = "no", v2r.numeric = NULL)
 }
+\arguments{
+\item{var.name.text}{a clientside specified character string identifying the
+variable to be recoded}
+
+\item{values2replace.text}{a clientside specified character string identifying the
+original values to be changed}
+
+\item{new.values.text}{a clientside specified character string identifying the new
+values to be allocated
+the values identified by values2replace.text and new.values.text are of the same
+length and in the same order}
+
+\item{numeric.output.format.possible}{a clientside generated Boolean variable
+indicating whether the vector of new values contains any non-numerics
+which will make a solely numeric output impossible}
+
+\item{force.output.format}{a clientside provided character string determining
+whether to force a numeric output. If so, and if the
+the vector of new values contains non-numerics they will be set to NaN}
+
+\item{v2r.numeric}{a clientside provided Boolean which if TRUE forces all input
+values (values2replace) to be numeric. If so, and if the
+the vector of values2replace contains non-numerics they will be set to NaN}
+}
 \description{
-The second serverside function called by ds.recodeValues. This is assign function.
+The second serverside function called by ds.recodeValues.o This is an
+aggregate function.
 }
 \details{
-For more details see the extensive header for ds.recodeValues.
+For more details see the extensive header for ds.recodeValues.o
+}
+\author{
+Burton PR
 }
