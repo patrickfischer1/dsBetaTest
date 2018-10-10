@@ -11,7 +11,10 @@ testObjExistsDS.o(test.obj.name = NULL)
 whose presence is to be tested in each data source}
 }
 \description{
-The serverside function that tests whether a given object exists in
+The serverside function called by ds.testObjExists.o
+}
+\details{
+Tests whether a given object exists in
 all sources. It is called at the end of all
 recently written assign functions to check the new (assigned) object has been
 created in all sources

@@ -8,7 +8,10 @@ lexisDS3}
 lexisDS3.o()
 }
 \description{
-The third serverside function called by ds.lexis. This is an assign function that simplifies the
+The third serverside function called by ds.lexis.
+}
+\details{
+This is an assign function that simplifies the
 returned output from ds.lexis. Specifically, without lexisDS3 the output consists of a table within
 a list, but lexisDS3 converts this directly into a dataframe.
 For more details see the extensive header for ds.lexis.

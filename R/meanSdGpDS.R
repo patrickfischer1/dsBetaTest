@@ -1,6 +1,7 @@
 #' 
 #' @title MeanSdGpDS
-#' @description Computes the mean and standard deviation across groups defined by one
+#' @description Serverside function called by ds.meanSdGp 
+#' @details Computes the mean and standard deviation across groups defined by one
 #' factor
 #' @param X a clientside supplied character string identifying the variable for which
 #' means/SDs are to be calculated

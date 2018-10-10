@@ -20,7 +20,10 @@ optional character string specifying a data.frame object holding the data to be
 analysed under the specified model}
 }
 \description{
-This is the first serverside function called by ds.glm.o It is an
+This is the first serverside function called by ds.glm.o
+}
+\details{
+It is an
 aggregation function that sets up the model structure
 and creates the starting beta.vector that feeds, via ds.glm, into glmDS2 to enable
 iterative fitting of the generalized linear model that has been

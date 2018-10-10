@@ -1,6 +1,7 @@
 #' 
 #' @title lexisDS2
-#' @description The second serverside function called by ds.lexis. This is the assign
+#' @description The second serverside function called by ds.lexis.
+#' @details This is the assign
 #' function which actually creates
 #' the expanded dataframe containing surival data for a piecewise exponential
 #' regression. lexisDS2 also
