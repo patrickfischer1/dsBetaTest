@@ -14,6 +14,9 @@ means/SDs are to be calculated}
 which means/SDs are to be calculated}
 }
 \description{
+Serverside function called by ds.meanSdGp
+}
+\details{
 Computes the mean and standard deviation across groups defined by one
 factor
 }

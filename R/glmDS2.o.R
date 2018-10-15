@@ -1,6 +1,7 @@
 #' 
 #' @title glmDS2.o
-#' @description This is the second serverside function called by ds.glm.o. It is an
+#' @description This is the second serverside function called by ds.glm.o.
+#' @details It is an
 #' aggregation function that uses the model structure
 #' and starting beta.vector constructed by glmDS1.o to iteratively fit the generalized
 #' linear model that has been

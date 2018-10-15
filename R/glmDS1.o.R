@@ -1,6 +1,7 @@
 #' 
 #' @title glmDS1.o
-#' @description This is the first serverside function called by ds.glm.o It is an
+#' @description This is the first serverside function called by ds.glm.o
+#' @details It is an
 #' aggregation function that sets up the model structure
 #' and creates the starting beta.vector that feeds, via ds.glm, into glmDS2 to enable
 #' iterative fitting of the generalized linear model that has been

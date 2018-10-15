@@ -36,7 +36,10 @@ final expanded table. If the 'variables' argument is not set (is null) but the
 'data' argument is set the full data.frame will be expanded and carried forward}
 }
 \description{
-The second serverside function called by ds.lexis. This is the assign
+The second serverside function called by ds.lexis.
+}
+\details{
+This is the assign
 function which actually creates
 the expanded dataframe containing surival data for a piecewise exponential
 regression. lexisDS2 also
