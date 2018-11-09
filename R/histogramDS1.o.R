@@ -1,6 +1,8 @@
 #' 
 #' @title Computes a histogram of the input variable without plotting.
 #' @description This function produces the information required to plot
+#' a histogram.
+#' @details This function produces the information required to plot
 #' a histogram. This is done without allowing for bins (cells) with number
 #' of counts less than the pre-specified disclosure control set for the minimum cell
 #' size of a table. If a bin has less counts than this threshold then their counts 

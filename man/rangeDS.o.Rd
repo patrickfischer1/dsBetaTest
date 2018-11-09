@@ -13,8 +13,12 @@ rangeDS.o(xvect)
 a numeric vector which contains the minimum and the maximum
 }
 \description{
-this function is similar to R function \code{range} but instead to not return 
+this function is similar to R function \code{range} but instead to return 
 the real minimum and maximum, the computed values are multiplied by a very small random number.
+}
+\details{
+This functions finds the minimum and the maximum of the input numeric variable and 
+adds to them a random number. It then returns the outcome to the client side.
 }
 \author{
 Gaye A, Avraam D

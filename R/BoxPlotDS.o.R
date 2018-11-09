@@ -57,5 +57,3 @@ do.out = TRUE
 
   list(stats, n, conf, out, coef)
 }
-#AGGREGATE FUNCTION
-

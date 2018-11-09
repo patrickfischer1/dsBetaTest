@@ -22,7 +22,11 @@ a list with an object of class \code{histogram} and the number of invalid cells.
 number of invalid cells for the method "Centroids" is set to null.
 }
 \description{
-This functions produces the information required to plot
+This function produces the information required to plot
+a histogram.
+}
+\details{
+This function produces the information required to plot
 a histogram. This is done by locating the centroids for each k nearest neighbours
 of the input data and then producing information for the histogram of the centroids.
 }

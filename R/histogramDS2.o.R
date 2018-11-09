@@ -1,8 +1,10 @@
 #' 
 #' @title Computes a histogram of the input variable without plotting.
-#' @description This functions produces the information required to plot
+#' @description This function produces the information required to plot
+#' a histogram.
+#' @details This function produces the information required to plot
 #' a histogram. This is done by locating the centroids for each k nearest neighbours
-#' of the input data and then producing information for the histogram of the centroids. 
+#' of the input data and then producing information for the histogram of the centroids.
 #' @param xvect the numeric vector for which the histogram is desired
 #' @param min a numeric, the lower limit of the distribution
 #' @param max a numeric, the upper limit of the distribution
