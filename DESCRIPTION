@@ -20,11 +20,12 @@ AggregateMethods: meanSdGpDS,
     meanDS.o,
     recodeValuesDS1.o,
     rilmDS.b,
-    testObjExistsDS.o
+    testObjExistsDS.o,
+    listDisclosureSettingsDS.o
 AssignMethods: lexisDS2.o,
     lexisDS3.o,
     asFactorDS2.o,
     BooleDS.o,
     recodeValuesDS2.o
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Encoding: UTF-8
