@@ -21,7 +21,7 @@ AggregateMethods: meanSdGpDS,
     recodeValuesDS1.o,
     rilmDS.b,
     testObjExistsDS.o,
-    listDisclosureSettingsDS.o.R    
+    listDisclosureSettingsDS.o
 AssignMethods: lexisDS2.o,
     lexisDS3.o,
     asFactorDS2.o,
