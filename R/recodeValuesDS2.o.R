@@ -22,20 +22,20 @@
 #' the vector of values2replace contains non-numerics they will be set to NaN
 #' @author Burton PR
 #' @export
+#'
 recodeValuesDS2.o <- function(var.name.text=NULL, values2replace.text=NULL, new.values.text=NULL,numeric.output.format.possible,force.output.format="no",v2r.numeric=NULL){
   
   #############################################################
-  #MODULE 1: CAPTURE THE nfilter SETTINGS                     #
-  thr<-.AGGREGATE$listDisclosureSettingsDS.o()				#
-  #nfilter.tab<-as.numeric(thr$nfilter.tab)					#
-  #nfilter.glm<-as.numeric(thr$nfilter.glm)					#
-  nfilter.subset<-as.numeric(thr$nfilter.subset)          	#
-  nfilter.string<-as.numeric(thr$nfilter.string)              #
-  nfilter.stringShort<-as.numeric(thr$nfilter.stringShort)    #
-  nfilter.kNN<-as.numeric(thr$nfilter.kNN)                    #
+  #MODULE 1: CAPTURE THE nfilter SETTINGS
+  thr <- listDisclosureSettingsDS.o()
+  #nfilter.tab <- as.numeric(thr$nfilter.tab)
+  #nfilter.glm <- as.numeric(thr$nfilter.glm)
+  nfilter.subset <- as.numeric(thr$nfilter.subset)
+  nfilter.string <- as.numeric(thr$nfilter.string)
+  nfilter.stringShort <- as.numeric(thr$nfilter.stringShort)
+  nfilter.kNN <- as.numeric(thr$nfilter.kNN)
   #############################################################
-  
-  
+    
   #DISCLOSURE TRAPS
   var.name.text.chars<-strsplit(var.name.text,split="")
   if(length(var.name.text.chars[[1]])>nfilter.stringShort){
@@ -60,20 +60,19 @@ recodeValuesDS2.o <- function(var.name.text=NULL, values2replace.text=NULL, new.
   var2recode<-eval(parse(text=var.name.text.c))
   
   
-  values2replace.c<-unlist(strsplit(values2replace.text, split=","))
+  values2replace.c <- unlist(strsplit(values2replace.text, split=","))
   
   if(v2r.numeric){
-    values2replace<-as.numeric(values2replace.c)
+    values2replace <- as.numeric(values2replace.c)
   }else{
-    values2replace<-values2replace.c
+    values2replace <- values2replace.c
   }
-  
-  
-  new.values.c<-unlist(strsplit(new.values.text, split=","))
+    
+  new.values.c <- unlist(strsplit(new.values.text, split=","))
   
   #SHOULD OUTPUT FORMAT BE NUMERIC OR CHARACTER
   
-  new.values<-new.values.c
+  new.values <- new.values.c
   
   numeric.output.format.still.possible<-(is.numeric(var2recode)&&numeric.output.format.possible)
   
@@ -82,11 +81,10 @@ recodeValuesDS2.o <- function(var.name.text=NULL, values2replace.text=NULL, new.
   }
   
   if(force.output.format=="character"){
-    new.values<-new.values.c
+    new.values <- new.values.c
   }
   
-  
-  var.recoded<-var2recode
+  var.recoded <- var2recode
   
   for(j in 1:length(var2recode)){
     for(k in 1:length(values2replace)){
