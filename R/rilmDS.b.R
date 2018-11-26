@@ -50,4 +50,5 @@ rilmDS.b <- function (..., yvar){
   return(list(N.sub, XX, XY, YY))	
 
 }
-
+#AGGREGATE FUNCTION
+# rilmDS.b
