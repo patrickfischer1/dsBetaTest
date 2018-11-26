@@ -12,8 +12,8 @@ meanDS.o <- function(xvect) {
 
 #############################################################
 # MODULE 1: CAPTURE THE nfilter SETTINGS                    #
-thr<-.AGGREGATE$listDisclosureSettingsDS.o()				#
-nfilter.tab<-as.numeric(thr$nfilter.tab)					#
+thr <- listDisclosureSettingsDS.o()
+nfilter.tab <- as.numeric(thr$nfilter.tab)
 #nfilter.glm<-as.numeric(thr$nfilter.glm)					#
 #nfilter.subset<-as.numeric(thr$nfilter.subset)         	#
 #nfilter.string<-as.numeric(thr$nfilter.string)             #
