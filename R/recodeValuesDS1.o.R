@@ -13,6 +13,7 @@
 #' length and in the same order
 #' @author Burton PR
 #' @export
+#'
 recodeValuesDS1.o <- function(var.name.text=NULL, values2replace.text=NULL, new.values.text=NULL){
     
   #############################################################
