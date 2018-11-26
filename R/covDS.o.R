@@ -24,6 +24,15 @@
 #' @export
 #' 
 covDS.o <- function(x=NULL, y=NULL, use=NULL){
+	
+  #############################################################
+  #MODULE 1: CAPTURE THE nfilter SETTINGS
+  thr <- listDisclosureSettingsDS.o()
+  nfilter.tab <- as.numeric(thr$nfilter.tab)
+  #nfilter.glm <- as.numeric(thr$nfilter.glm)
+  #nfilter.subset <- as.numeric(thr$nfilter.subset)
+  #nfilter.string <- as.numeric(thr$nfilter.string)
+  #############################################################
 
   # create a data frame for the variables
   if (is.null(y)){
@@ -43,31 +52,28 @@ covDS.o <- function(x=NULL, y=NULL, use=NULL){
   # DISCLOSURE CONTROL # 
   ######################
 
-  # DISCLOSURE TESTS OF MIN NON-ZERO CELL SIZE IN TABLES
-  nf.tab <- getOption("datashield.privacyLevel")    ### FOR THE NEXT MAIN RELEASE WE SHOULD REPLACE THIS WITH nfilter.tab
-
   # CHECK X MATRIX VALIDITY 
   # Check no dichotomous X vectors with between 1 and filter.threshold 
   # observations at either level 
     
-    X.mat <- as.matrix(dataframe)
+  X.mat <- as.matrix(dataframe)
   
-	dimX <- dim((X.mat))
+  dimX <- dim((X.mat))
 
-  	num.Xpar <- dimX[2]
+  num.Xpar <- dimX[2]
 
-	Xpar.invalid <- rep(0, num.Xpar)
+  Xpar.invalid <- rep(0, num.Xpar)
 
-  	for(pj in 1:num.Xpar){
-	  unique.values.noNA <- unique((X.mat[,pj])[complete.cases(X.mat[,pj])]) 
-	  if(length(unique.values.noNA)==2){
-		tabvar <- table(X.mat[,pj])[table(X.mat[,pj])>=1] #tabvar COUNTS N IN ALL CATEGORIES WITH AT LEAST ONE OBSERVATION
-		min.category <- min(tabvar)
-		if(min.category < nf.tab){
-		    Xpar.invalid[pj] <- 1
-        }
+  for(pj in 1:num.Xpar){
+    unique.values.noNA <- unique((X.mat[,pj])[complete.cases(X.mat[,pj])]) 
+    if(length(unique.values.noNA)==2){
+      tabvar <- table(X.mat[,pj])[table(X.mat[,pj])>=1] #tabvar COUNTS N IN ALL CATEGORIES WITH AT LEAST ONE OBSERVATION
+      min.category <- min(tabvar)
+      if(min.category < nfilter.tab){
+	Xpar.invalid[pj] <- 1
       }
-	}	
+    }
+  }	
 	
   # if any of the vectors in X matrix is invalid then the function returns all the
   # outputs by replacing their values with NAs
@@ -106,7 +112,6 @@ covDS.o <- function(x=NULL, y=NULL, use=NULL){
     errorMessage <- "ERROR: at least one variable is binary with one category less than the filter threshold for table cell size"
   
   }	
-
 
   # if all vectors in X matrix are valid then the output matrices are calculated
 
@@ -161,13 +166,12 @@ covDS.o <- function(x=NULL, y=NULL, use=NULL){
       }
     }
 
-	# Calculate the variance of each variable after removing missing values casewise
-	vars <- matrix(ncol=1, nrow=N.vars)
+    # Calculate the variance of each variable after removing missing values casewise
+    vars <- matrix(ncol=1, nrow=N.vars)
     rownames(sums) <- cls
     for(m in 1:N.vars){
       vars[m,1] <- var(as.numeric(as.character(casewise.dataframe[,m])))
     }		
-
 	
     complete.counts <- matrix(dim(casewise.dataframe)[1], ncol=N.vars, nrow=N.vars)
     rownames(complete.counts) <- cls
@@ -271,3 +275,5 @@ covDS.o <- function(x=NULL, y=NULL, use=NULL){
   return(list(sums.of.products=sums.of.products, sums=sums, complete.counts=complete.counts, na.counts=na.counts, errorMessage=errorMessage, vars=vars, sums.of.squares=sums.of.squares))
 
 }
+#AGGREGATE FUNCTION
+# covDS.o

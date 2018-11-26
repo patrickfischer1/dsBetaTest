@@ -16,22 +16,20 @@
 #' analysed under the specified model 
 #' @author Burton PR
 #' @export
-glmDS1.o<-function (formula, family, weights, data){
+#'
+glmDS1.o <- function(formula, family, weights, data){
   
-  errorMessage="No errors"
+  errorMessage <- "No errors"
   
   #############################################################
-  #MODULE 1: CAPTURE THE nfilter SETTINGS                     #
-  thr<-.AGGREGATE$listDisclosureSettingsDS.o()				#
-  nfilter.tab<-as.numeric(thr$nfilter.tab)					#
-  nfilter.glm<-as.numeric(thr$nfilter.glm)					#
-  #nfilter.subset<-as.numeric(thr$nfilter.subset)         	#
-  #nfilter.string<-as.numeric(thr$nfilter.string)             #
+  #MODULE 1: CAPTURE THE nfilter SETTINGS
+  thr <- listDisclosureSettingsDS.o()
+  nfilter.tab <- as.numeric(thr$nfilter.tab)
+  nfilter.glm <- as.numeric(thr$nfilter.glm)
+  #nfilter.subset <- as.numeric(thr$nfilter.subset)
+  #nfilter.string <- as.numeric(thr$nfilter.string)
   #############################################################
-  
-  
-  
-  
+   
   # get the value of the 'data' and 'weights' parameters provided as character on the client side
   if(is.null(data)){
     dataTable <- NULL 
@@ -52,7 +50,6 @@ glmDS1.o<-function (formula, family, weights, data){
   formula2use <- as.formula(paste0(Reduce(paste, deparse(originalFormula)))) # here we need the formula as a 'call' object
   mod.glm.ds <- glm(formula2use, family=family, x=TRUE, control=glm.control(maxit=1), contrasts=NULL, data=dataTable)
   
-  
   #Remember model.variables and then varnames INCLUDE BOTH yvect AND linear predictor components 
   model.variables <- unlist(strsplit(formulatext, split="|", fixed=TRUE))
   
@@ -72,41 +69,33 @@ glmDS1.o<-function (formula, family, weights, data){
   
   X.mat <- as.matrix(mod.glm.ds$x)
   
-  dimX<-dim((X.mat))
-  
-  
-  y.vect<-as.vector(mod.glm.ds$y)
-  
-  
-  
-  
-  
+  dimX <- dim((X.mat))
+    
+  y.vect <- as.vector(mod.glm.ds$y)
+    
   ##############################################################
   #FIRST TYPE OF DISCLOSURE TRAP - TEST FOR OVERSATURATED MODEL#
   #TEST AGAINST nfilter.glm									  #
   ##############################################################
   
-  glm.saturation.invalid<-0
-  num.p<-dimX[2]
-  num.N<-dimX[1]
+  glm.saturation.invalid <- 0
+  num.p <- dimX[2]
+  num.N <- dimX[1]
   
   if(num.p>nfilter.glm*num.N){
-    glm.saturation.invalid<-1
-    errorMessage<-"ERROR: Model has too many parameters, there is a possible risk of disclosure - please simplify model"
+    glm.saturation.invalid <- 1
+    errorMessage <- "ERROR: Model has too many parameters, there is a possible risk of disclosure - please simplify model"
     #DELETE return(errorMessage) 
   }
-  
-  
-  coef.names<-names(mod.glm.ds$coefficients)
+    
+  coef.names <- names(mod.glm.ds$coefficients)
   
   if(is.null(weights)){
-    w.vect<-rep(1,length(y.vect))
+    w.vect <- rep(1,length(y.vect))
   }else{
     ftext <- paste0("cbind(",weights,")")
     w.vect <- eval(parse(text=ftext))
   }
-  
-  
   
   ################################
   #SECOND TYPE OF DISCLOSURE TRAP#
@@ -119,13 +108,11 @@ glmDS1.o<-function (formula, family, weights, data){
   #trigger a controlled trap in the clientside function to destroy the
   #score.vector and information.matrix in the study with the problem.
   
-  
-  
   #CHECK Y VECTOR VALIDITY
-  y.invalid<-0
+  y.invalid <- 0
   
   #COUNT NUMBER OF UNIQUE NON-MISSING VALUES - DISCLOSURE RISK ONLY ARISES WITH TWO LEVELS
-  unique.values.noNA.y<-unique(y.vect[complete.cases(y.vect)])
+  unique.values.noNA.y <- unique(y.vect[complete.cases(y.vect)])
   
   #IF TWO LEVELS, CHECK WHETHER EITHER LEVEL 0 < n < nfilter.tab
   
@@ -185,8 +172,6 @@ glmDS1.o<-function (formula, family, weights, data){
   
   return(list(dimX=dimX,coef.names=coef.names,y.invalid=y.invalid,Xpar.invalid=Xpar.invalid,w.invalid=w.invalid,
               glm.saturation.invalid=glm.saturation.invalid,errorMessage=errorMessage))
-  
-  
   
 }
 #AGGREGATE FUNCTION

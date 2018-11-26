@@ -9,8 +9,9 @@
 #' which means/SDs are to be calculated
 #' @author Burton PR
 #' @export
-meanSdGpDS <- function (X, INDEX) 
-{
+#'
+meanSdGpDS <- function (X, INDEX){
+  
   FUN.mean <- function(x) {mean(x,na.rm=TRUE)}
   FUN.var <- function(x)  {var(x,na.rm=TRUE)}
   
@@ -121,4 +122,4 @@ meanSdGpDS <- function (X, INDEX)
   
 }
 #AGGREGATE function
-#meanSdGpDS
+# meanSdGpDS
