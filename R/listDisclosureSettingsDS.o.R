@@ -8,17 +8,17 @@
 #'
 listDisclosureSettingsDS.o <- function(){
 
-	nf.tab <- getOption("nfilter.tab")
-    nf.subset <- getOption("nfilter.subset")
-	nf.glm <- getOption("nfilter.glm")
-	nf.string <- getOption("nfilter.string")
-	nf.stringShort <- getOption("nfilter.stringShort")
-	nf.kNN <- getOption("nfilter.kNN")	
-	nfilter.privacy.old <- getOption("datashield.privacyLevel")
+  nf.tab <- getOption("nfilter.tab")
+  nf.subset <- getOption("nfilter.subset")
+  nf.glm <- getOption("nfilter.glm")
+  nf.string <- getOption("nfilter.string")
+  nf.stringShort <- getOption("nfilter.stringShort")
+  nf.kNN <- getOption("nfilter.kNN")	
+  nfilter.privacy.old <- getOption("datashield.privacyLevel")
 	
-	return(list(nfilter.tab=nf.tab,nfilter.subset=nf.subset,nfilter.glm=nf.glm,nfilter.string=nf.string,
+  return(list(nfilter.tab=nf.tab,nfilter.subset=nf.subset,nfilter.glm=nf.glm,nfilter.string=nf.string,
 	            nfilter.stringShort=nf.stringShort,nfilter.kNN=nf.kNN,nfilter.privacy.old=nfilter.privacy.old))
 				
 }
 #AGGREGATE FUNCTION
-#listDisclosureSettingsDS.o
+# listDisclosureSettingsDS.o
