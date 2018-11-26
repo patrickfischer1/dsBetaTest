@@ -26,12 +26,12 @@
 BooleDS.o <- function(V1.name=NULL, V2.name=NULL, Boolean.operator.n=NULL, na.assign.text, numeric.output=TRUE){
   
   #############################################################
-  #MODULE 1: CAPTURE THE nfilter SETTINGS                     #
-  thr<-.AGGREGATE$listDisclosureSettingsDS.o()				#
-  nfilter.tab<-as.numeric(thr$nfilter.tab)					#
-  #nfilter.glm<-as.numeric(thr$nfilter.glm)					#
-  #nfilter.subset<-as.numeric(thr$nfilter.subset)         	#
-  #nfilter.string<-as.numeric(thr$nfilter.string)             #
+  #MODULE 1: CAPTURE THE nfilter SETTINGS
+  thr <- listDisclosureSettingsDS.o()
+  nfilter.tab <- as.numeric(thr$nfilter.tab)
+  #nfilter.glm<-as.numeric(thr$nfilter.glm)
+  #nfilter.subset<-as.numeric(thr$nfilter.subset)
+  #nfilter.string<-as.numeric(thr$nfilter.string)
   #############################################################
   
   
@@ -97,7 +97,6 @@ BooleDS.o <- function(V1.name=NULL, V2.name=NULL, Boolean.operator.n=NULL, na.as
     }
   }
   
-  
   #BY DEFAULT NAs REMAIN AS NAs BUT IF YOU WANT TO YOU CAN FORCE THEM TO 1 OR 0 USING <na.assign.text> ARGUMENT
   
   if(na.assign.text=="1"){
@@ -108,21 +107,17 @@ BooleDS.o <- function(V1.name=NULL, V2.name=NULL, Boolean.operator.n=NULL, na.as
     Boolean.indicator[is.na(Boolean.indicator)==1]<-0
   }
   
-  
-  outobj.b<-as.logical(Boolean.indicator)
-  outobj<-Boolean.indicator
-  
-  
-  
-  
+  outobj.b <- as.logical(Boolean.indicator)
+  outobj <- Boolean.indicator
+
   #CHECK OUTPUT VECTOR VALIDITY
   outobj.invalid<-0
   
-  unique.values.outobj<-unique(outobj)
-  unique.values.noNA.outobj<-unique.values.outobj[complete.cases(unique.values.outobj)]
+  unique.values.outobj <- unique(outobj)
+  unique.values.noNA.outobj <- unique.values.outobj[complete.cases(unique.values.outobj)]
   
   #Boolean and can therefore only be binary so check this:
-  if(length(unique.values.noNA.outobj)>2) outobj.invalid<-1
+  if(length(unique.values.noNA.outobj)>2) outobj.invalid <- 1
   
   tabvar<-table(outobj,useNA="no")[table(outobj,useNA="no")>=1]
   min.category<-min(tabvar)
@@ -130,16 +125,18 @@ BooleDS.o <- function(V1.name=NULL, V2.name=NULL, Boolean.operator.n=NULL, na.as
   
   #TERMINATE CALCULATION IF outobj.invalid==1
   if(outobj.invalid==1){
-    studysideMessage<-"FAILED: outobj has at least one category below table filter limit"
+    studysideMessage <- "FAILED: outobj has at least one category below table filter limit"
     return(list(studysideMessage=studysideMessage))
   }
   
-  
-  
   if(numeric.output==TRUE){
-    Boole.obj<-outobj
-  }else{Boole.obj<-outobj.b}
+    Boole.obj <- outobj
+  }else{
+    Boole.obj <- outobj.b
+  }
+
   return(Boole.obj)
+
 }
 #ASSIGN FUNCTION
 # BooleDS.o
