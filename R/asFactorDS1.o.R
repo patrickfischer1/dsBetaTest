@@ -14,7 +14,7 @@ asFactorDS1.o <- function(input.var.name=NULL){
   input.var <- eval(parse(text=input.var.name))
   factor.levels.present.in.source <- levels(factor(input.var)) 
 
-return(factor.levels.present.in.source)
+  return(factor.levels.present.in.source)
 
 }
 #AGGREGATE FUNCTION
