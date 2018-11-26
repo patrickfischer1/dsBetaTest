@@ -26,7 +26,7 @@ asFactorDS2.o <- function(input.var.name=NULL, all.unique.levels.transmit=NULL, 
   levels.var <- code.c
 
   if(fixed.dummy.vars==FALSE){
-    factor.obj<-factor(input.var,levels=levels.var)
+    factor.obj <- factor(input.var,levels=levels.var)
   }else{
     
     dummy.matrix <- matrix(NA,nrow=length(input.var),ncol=length(levels.var))
@@ -43,10 +43,8 @@ asFactorDS2.o <- function(input.var.name=NULL, all.unique.levels.transmit=NULL, 
     factor.obj <- dummy.matrix[,non.baseline.levels]       
   }
 
-return(factor.obj)
+  return(factor.obj)
 
 }
 #ASSIGN FUNCTION
 # asFactorDS2.o
-
-
