@@ -1,6 +1,6 @@
 Package: dsBetaTest
 Title: New DataSHIELD Server Functions
-Version: 0.1.5
+Version: 0.2.0
 Author: DataSHIELD Developers <datashield@newcastle.ac.uk>
 Maintainer: DataSHIELD Developers <datashield@newcastle.ac.uk>
 Description: Beta versions of new DataSHIELD server functions. Collected in this
@@ -28,5 +28,5 @@ AssignMethods: lexisDS2.o,
     asFactorDS2.o,
     BooleDS.o,
     recodeValuesDS2.o
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Encoding: UTF-8
