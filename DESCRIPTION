@@ -28,5 +28,12 @@ AssignMethods: lexisDS2.o,
     asFactorDS2.o,
     BooleDS.o,
     recodeValuesDS2.o
+Options:
+    nfilter.glm=0.37,
+    nfilter.kNN=3,
+    nfilter.string=80,
+    nfilter.subset=3,
+    nfilter.stringShort=20,
+    nfilter.tab=3
 RoxygenNote: 6.1.1
 Encoding: UTF-8
