@@ -38,5 +38,5 @@ Boolean indicators.
 The function converts the input vector into Boolean indicators.
 }
 \author{
-Burton PR
+DataSHIELD Development Team
 }
