@@ -22,31 +22,27 @@
 #' the data to be analysed under the specified model same 
 #' @author Burton PR
 #' @export
-glmDS2.o<-function (formula, family, beta.vect, offset, weights, dataName) {
+#'
+glmDS2.o <- function (formula, family, beta.vect, offset, weights, dataName) {
   
   #############################################################
-  #MODULE 1: CAPTURE THE nfilter SETTINGS                     #
-  thr<-.AGGREGATE$listDisclosureSettingsDS.o()				#
-  nfilter.tab<-as.numeric(thr$nfilter.tab)					#
-  nfilter.glm<-as.numeric(thr$nfilter.glm)					#
-  #nfilter.subset<-as.numeric(thr$nfilter.subset)         	#
-  #nfilter.string<-as.numeric(thr$nfilter.string)             #
+  #MODULE 1: CAPTURE THE nfilter SETTINGS
+  thr <- listDisclosureSettingsDS.o()
+  nfilter.tab <- as.numeric(thr$nfilter.tab)
+  nfilter.glm <- as.numeric(thr$nfilter.glm)
+  #nfilter.subset <- as.numeric(thr$nfilter.subset)
+  #nfilter.string <- as.numeric(thr$nfilter.string)
   #############################################################
   
-  
-  
-  
-  errorMessage2<-"No errors"
+  errorMessage2 <- "No errors"
   # Get the value of the 'data' parameter provided as character on the client side
   # Same is done for offset and weights lower down function
   
   if(!is.null(dataName)){
     dataDF <- eval(parse(text=dataName))
   }else{
-    dataDF<-NULL
+    dataDF <- NULL
   }
-  
-  
   
   # Rewrite formula extracting variables nested in strutures like data frame or list
   # (e.g. D$A~D$B will be re-written A~B)
@@ -65,7 +61,6 @@ glmDS2.o<-function (formula, family, beta.vect, offset, weights, dataName) {
   formulatext <- gsub("+", "|", formulatext, fixed=TRUE)
   formulatext <- gsub("*", "|", formulatext, fixed=TRUE)
   formulatext <- gsub("||", "|", formulatext, fixed=TRUE)
-  
   
   #Remember model.variables and then varnames INCLUDE BOTH yvect AND linear predictor components 
   model.variables <- unlist(strsplit(formulatext, split="|", fixed=TRUE))
@@ -97,31 +92,24 @@ glmDS2.o<-function (formula, family, beta.vect, offset, weights, dataName) {
     cbindraw.text <- paste0("cbind(", paste(varnames, collapse=","), ")")
   }
   
-  
-  
   #Identify and use variable names to count missings
   #	cbindraw.text <- paste0("cbind(", paste(varnames, collapse=","), ")")
   
   all.data <- eval(parse(text=cbindraw.text))
-  
-  
-  
-  
-  
+
   #WORKS TO HERE
   
   ############################
   
-  Ntotal<-dim(all.data)[1]
+  Ntotal <- dim(all.data)[1]
   
-  nomiss.any<-complete.cases(all.data)
-  nomiss.any.data<-all.data[nomiss.any,]
-  N.nomiss.any<-dim(nomiss.any.data)[1]
+  nomiss.any <- complete.cases(all.data)
+  nomiss.any.data <- all.data[nomiss.any,]
+  N.nomiss.any <- dim(nomiss.any.data)[1]
   
-  Nvalid<-N.nomiss.any
-  Nmissing<-Ntotal-Nvalid
-  
-  
+  Nvalid <- N.nomiss.any
+  Nmissing <- Ntotal-Nvalid
+    
   #######################################
   
   # Now fit model specified in formula: by using x=TRUE this is how we generate all of the model terms
@@ -133,14 +121,14 @@ glmDS2.o<-function (formula, family, beta.vect, offset, weights, dataName) {
   
   X.mat.orig <- as.matrix(mod.glm.ds$x)
   y.vect.orig <-as.vector(mod.glm.ds$y)
-  f<-mod.glm.ds$family
+  f <- mod.glm.ds$family
   
   # Remove rows of offset or weights which contain NA in any Y or X variable
   # Rows where offset or weights are missing but Y and X are non-NA, remain at this stage
   cbindtext <- paste0("cbind(", paste(varnames, collapse=","), ")")
   dtemp <- eval(parse(text=cbindtext))
   # now get the above table with no missing values (i.e. complete) and grab the offset variable (the last column)
-  row.noNA.YX<-complete.cases(dtemp)
+  row.noNA.YX <- complete.cases(dtemp)
   
   #Both weights and offset
   if(!(is.null(weights))&&!(is.null(offset))){
@@ -222,8 +210,7 @@ glmDS2.o<-function (formula, family, beta.vect, offset, weights, dataName) {
     weightsvar<-rep(1,length(y.vect))
     offsetvar<-rep(0,length(y.vect))
   }
-  
-  
+
   numsubs<-length(y.vect)
   
   #Convert beta.vect from transmittable (character) format to numeric 
@@ -264,12 +251,10 @@ glmDS2.o<-function (formula, family, beta.vect, offset, weights, dataName) {
   #Note mu.et.val is first differential of inverse link function (d.mu by d.eta)
   #which is inverse of first diff of link function (g') in thoretical explanation
   
-  u.vect<-(y.vect-mu.vect)*1/mu.eta.val
-  W.u.mat<-matrix(W.vect*u.vect)
-  score.vect<-t(X.mat)%*%W.u.mat
-  
-  
-  
+  u.vect <- (y.vect-mu.vect)*1/mu.eta.val
+  W.u.mat <- matrix(W.vect*u.vect)
+  score.vect <- t(X.mat)%*%W.u.mat
+
   ##########################
   #BACKUP DISCLOSURE TRAP
   #If y, X or w data are invalid but user has modified clientside
@@ -282,21 +267,20 @@ glmDS2.o<-function (formula, family, beta.vect, offset, weights, dataName) {
   
   #Disclosure code from glmDS1
   
-  dimX<-dim((X.mat))
+  dimX <- dim((X.mat))
   
   ##############################################################
   #FIRST TYPE OF DISCLOSURE TRAP - TEST FOR OVERSATURATED MODEL#
   ##############################################################
   glm.saturation.invalid<-0
-  num.p<-dimX[2]
-  num.N<-dimX[1]
+  num.p <- dimX[2]
+  num.N <- dimX[1]
   
   if(num.p>nfilter.glm*num.N){
     glm.saturation.invalid<-1
     errorMessage<-"ERROR: Model has too many parameters, there is a possible risk of disclosure - please simplify model"
     return(errorMessage) 
   }
-  
   
   ################################
   #SECOND TYPE OF DISCLOSURE TRAP#
@@ -341,15 +325,12 @@ glmDS2.o<-function (formula, family, beta.vect, offset, weights, dataName) {
       }
     }
   }
-  
-  
-  
-  
+
   #CHECK W VECTOR VALIDITY
-  w.invalid<-0
+  w.invalid <- 0
   
   #Keep same object name as in glmDS1
-  w.vect<-weightsvar
+  w.vect <- weightsvar
   
   unique.values.noNA.w<-unique(w.vect[complete.cases(w.vect)])
   
@@ -361,8 +342,6 @@ glmDS2.o<-function (formula, family, beta.vect, offset, weights, dataName) {
       errorMessage<-"ERROR: w vector is binary with one category less than filter threshold for table cell size"
     }
   }
-  
-  
   
   disclosure.risk<-0
   
@@ -379,10 +358,8 @@ glmDS2.o<-function (formula, family, beta.vect, offset, weights, dataName) {
   
   return(list(family=f, info.matrix=info.matrix, score.vect=score.vect, numsubs=numsubs, dev=dev,
               Nvalid=Nvalid,Nmissing=Nmissing,Ntotal=Ntotal,disclosure.risk=disclosure.risk,
-              errorMessage2=errorMessage2
-  ))  
-  
-  
+              errorMessage2=errorMessage2))  
+ 
   
 }
 #AGGREGATE FUNCTION

@@ -31,50 +31,42 @@
 #' 'data' argument is set the full data.frame will be expanded and carried forward
 #' @author Burton PR
 #' @export
-
-lexisDS2.o<-function(datatext=NULL, intervalWidth, maxmaxtime, idCol, entryCol, exitCol, statusCol, vartext=NULL){
+#'
+lexisDS2.o <- function(datatext=NULL, intervalWidth, maxmaxtime, idCol, entryCol, exitCol, statusCol, vartext=NULL){
   
   #############################################################
-  #MODULE 1: CAPTURE THE nfilter SETTINGS                     #
-  thr<-.AGGREGATE$listDisclosureSettingsDS.o()				#
-  nfilter.tab<-as.numeric(thr$nfilter.tab)					#
-  nfilter.glm<-as.numeric(thr$nfilter.glm)					#
-  #nfilter.subset<-as.numeric(thr$nfilter.subset)         	#
-  #nfilter.string<-as.numeric(thr$nfilter.string)             #
+  #MODULE 1: CAPTURE THE nfilter SETTINGS
+  thr <- listDisclosureSettingsDS.o()
+  nfilter.tab <- as.numeric(thr$nfilter.tab)
+  nfilter.glm <- as.numeric(thr$nfilter.glm)
+  #nfilter.subset<-as.numeric(thr$nfilter.subset)
+  #nfilter.string<-as.numeric(thr$nfilter.string)
   #############################################################
   
+  starttime <- eval(parse(text=entryCol))
+  endtime <- eval(parse(text=exitCol))
+  cens <- eval(parse(text=statusCol))
+  id.orig <- eval(parse(text=idCol))
   
-  
-  starttime<-eval(parse(text=entryCol))
-  endtime<-eval(parse(text=exitCol))
-  cens<-eval(parse(text=statusCol))
-  id.orig<-eval(parse(text=idCol))
-  
-  starttime<-as.numeric(starttime)
-  endtime<-as.numeric(endtime)
+  starttime <- as.numeric(starttime)
+  endtime <- as.numeric(endtime)
   
   if(is.factor(cens)){
-    cens<-as.character(cens)
-    cens<-as.numeric(cens)
+    cens <- as.character(cens)
+    cens <- as.numeric(cens)
   }
   
-  CENS<-as.numeric(cens)
-  SURVTIME<-endtime-starttime
-  STARTTIME<-starttime
-  ENDTIME<-endtime
-  ID<-id.orig
-  
-  
-  
-  
-  
-  
+  CENS <- as.numeric(cens)
+  SURVTIME <- endtime-starttime
+  STARTTIME <- starttime
+  ENDTIME <- endtime
+  ID <- id.orig
   
   #CREATE A NEW ORDERED SEQUENTIAL ID - INDEPENDENT FROM ORIGINAL idCol
   #THIS WILL ENABLE SORTING REGARDLESS OF THE NATURE OF THE ORIGINAL idCol 
   #USE exitCol FOR LENGTH BECAUSE idCol MAY POTENTIALLY BE NULL
-  idSeq<-1:length(SURVTIME)
-  length.collapseDF<-length(idSeq)
+  idSeq <- 1:length(SURVTIME)
+  length.collapseDF <- length(idSeq)
   
   #IDENTIFY VARIABLES TO BE CARRIED WITH THE EXPANDED SURVIVAL DATA
   
@@ -250,10 +242,7 @@ lexisDS2.o<-function(datatext=NULL, intervalWidth, maxmaxtime, idCol, entryCol, 
       (m==last.int.exposed)*CENS	
     idSeq.matrix[,m]<- idSeq
     
-    
   }
-  
-  
   
   idSeq.vector<-as.vector(idSeq.matrix)
   cens.vector<-as.vector(cens.matrix)

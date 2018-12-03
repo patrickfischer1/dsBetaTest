@@ -1,7 +1,8 @@
 Package: dsBetaTest
 Title: New DataSHIELD Server Functions
-Version: 0.1.1
-Authors@R: person("DataSHIELD", "Developers", email = "datashield@newcastle.ac.uk", role = c("aut", "cre"))
+Version: 0.3.0
+Author: DataSHIELD Developers <datashield@newcastle.ac.uk>
+Maintainer: DataSHIELD Developers <datashield@newcastle.ac.uk>
 Description: Beta versions of new DataSHIELD server functions. Collected in this
     temporary package, prior to inclusion in the main DataSHIELD packages.
 License: GPL-3
@@ -22,15 +23,22 @@ AggregateMethods: meanSdGpDS,
     rilmDS.b,
     testObjExistsDS.o,
     listDisclosureSettingsDS.o,
-	dataFrameSubsetDS1.o,
-	glmDSSLMA2.o
+	  dataFrameSubsetDS1.o,
+	  glmDSSLMA2.o
 AssignMethods: lexisDS2.o,
     lexisDS3.o,
     asFactorDS2.o,
     BooleDS.o,
     recodeValuesDS2.o,
-	dataFrameDS.o,
-	dataFrameSortDS.o,
-	dataFrameSubsetDS2.o
+  	dataFrameDS.o,
+	  dataFrameSortDS.o,
+	  dataFrameSubsetDS2.o
+Options:
+    nfilter.glm=0.37,
+    nfilter.kNN=3,
+    nfilter.string=80,
+    nfilter.subset=3,
+    nfilter.stringShort=20,
+    nfilter.tab=3
 RoxygenNote: 6.1.1
 Encoding: UTF-8

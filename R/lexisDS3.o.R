@@ -11,11 +11,11 @@
 #'
 #' @export
 #'
-lexisDS3.o<-function(){
+lexisDS3.o <- function(){
 
-      outobj<-data.frame(messageobj$expanded.table)
+  outobj <- data.frame(messageobj$expanded.table)
 
-return(outobj)
+  return(outobj)
 
 }
 #ASSIGN FUNCTION
