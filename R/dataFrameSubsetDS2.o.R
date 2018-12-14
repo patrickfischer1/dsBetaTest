@@ -55,12 +55,12 @@
 #' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
 #' @author DataSHIELD Development Team
 #' @export
-
+#'
 dataFrameSubsetDS2.o<-function(df.name=NULL,V1.name=NULL, V2.name=NULL, Boolean.operator.n=NULL,keep.cols=NULL, rm.cols=NULL, keep.NAs=NULL){
 
 #########################################################################
 # DataSHIELD MODULE: CAPTURE THE nfilter SETTINGS           			#
-thr<-.AGGREGATE$listDisclosureSettingsDS.o()							#
+thr <- listDisclosureSettingsDS.o()							#
 #nfilter.tab<-as.numeric(thr$nfilter.tab)								#
 #nfilter.glm<-as.numeric(thr$nfilter.glm)								#
 nfilter.subset<-as.numeric(thr$nfilter.subset)          				#
@@ -298,11 +298,8 @@ if(!is.null(rm.cols)){
     return(df.subset)
 }
 
-
-
 return(df.subset)
 
 }
 #ASSIGN FUNCTION
 # dataFrameSubsetDS2.o
-
