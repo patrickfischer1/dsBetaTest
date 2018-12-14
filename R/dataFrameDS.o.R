@@ -37,19 +37,18 @@
 #' @author DataSHIELD Development Team
 #' @export
 #' 
-
-dataFrameDS.o <- function (vectors=NULL,r.names=NULL,ch.rows=FALSE,ch.names=TRUE,clnames=NULL,strAsFactors=TRUE,completeCases=FALSE) {
+dataFrameDS.o <- function (vectors=NULL,r.names=NULL,ch.rows=FALSE,ch.names=TRUE,clnames=NULL,strAsFactors=TRUE,completeCases=FALSE){
 
 #########################################################################
-# DataSHIELD MODULE: CAPTURE THE nfilter SETTINGS           			#
-thr<-.AGGREGATE$listDisclosureSettingsDS.o()							#
-#nfilter.tab<-as.numeric(thr$nfilter.tab)								#
-#nfilter.glm<-as.numeric(thr$nfilter.glm)								#
-nfilter.subset<-as.numeric(thr$nfilter.subset)          				#
-#nfilter.string<-as.numeric(thr$nfilter.string)              			#
-#nfilter.stringShort<-as.numeric(thr$nfilter.stringShort)    			#
-#nfilter.kNN<-as.numeric(thr$nfilter.kNN)								#
-#datashield.privacyLevel<-as.numeric(thr$datashield.privacyLevel)        #
+# DataSHIELD MODULE: CAPTURE THE nfilter SETTINGS
+thr <- listDisclosureSettingsDS.o()
+#nfilter.tab<-as.numeric(thr$nfilter.tab)
+#nfilter.glm<-as.numeric(thr$nfilter.glm)
+nfilter.subset <- as.numeric(thr$nfilter.subset)
+#nfilter.string<-as.numeric(thr$nfilter.string)
+#nfilter.stringShort<-as.numeric(thr$nfilter.stringShort)
+#nfilter.kNN<-as.numeric(thr$nfilter.kNN)
+#datashield.privacyLevel<-as.numeric(thr$datashield.privacyLevel)
 #########################################################################
   
   if(strAsFactors){
@@ -70,18 +69,13 @@ nfilter.subset<-as.numeric(thr$nfilter.subset)          				#
   
   # check if the resulting dataframe is of valid length and output accordingly
   if(dim(dt)[1] < nfilter.subset){
-      dt[] <- NA
-   studysideMessage<-"nfilter.trap: dataframe has less then nfilter.subset rows"
-   return(list(studysideMessage=studysideMessage))
-   
-    }
-  
+    dt[] <- NA
+    studysideMessage <- "nfilter.trap: dataframe has less then nfilter.subset rows"
+    return(list(studysideMessage=studysideMessage))
+  }
   
   return(dt)
   
 }
-
 # ASSIGN FUNCTION
 # dataFrameDS.o
-
-
