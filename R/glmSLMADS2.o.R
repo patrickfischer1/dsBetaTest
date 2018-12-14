@@ -57,7 +57,7 @@ nfilter.glm <- as.numeric(thr$nfilter.glm)
   if(!is.null(dataName)){
     dataDF <- eval(parse(text=dataName))
   }else{
-    dataDF<-NULL
+    dataDF <- NULL
   }
 
   # Rewrite formula extracting variables nested in strutures like data frame or list
