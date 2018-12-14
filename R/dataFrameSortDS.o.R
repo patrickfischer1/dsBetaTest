@@ -1,3 +1,4 @@
+#' 
 #' @title dataFrameSortDS.o called by ds.dataFrameSort.o
 #' @description The serverside function that sorts a data frame using
 #' a specified sort key.
@@ -25,73 +26,68 @@
 #' ds.dataFrameSortDS.o)
 #' @author DataSHIELD Development Team
 #' @export
-
-dataFrameSortDS.o<-function(df.text=NULL, sort.key.text=NULL, sort.descending=FALSE,sort.alphabetic=FALSE,sort.numeric=FALSE){
+#'
+dataFrameSortDS.o <- function(df.text=NULL,sort.key.text=NULL,sort.descending=FALSE,sort.alphabetic=FALSE,sort.numeric=FALSE){
 
 #########################################################################
-# DataSHIELD MODULE: CAPTURE THE nfilter SETTINGS           			#
-thr<-.AGGREGATE$listDisclosureSettingsDS.o()							#
-#nfilter.tab<-as.numeric(thr$nfilter.tab)								#
-#nfilter.glm<-as.numeric(thr$nfilter.glm)								#
-nfilter.subset<-as.numeric(thr$nfilter.subset)          				#
-nfilter.string<-as.numeric(thr$nfilter.string)              			#
-nfilter.stringShort<-as.numeric(thr$nfilter.stringShort)    			#
-#nfilter.kNN<-as.numeric(thr$nfilter.kNN)								#
-#datashield.privacyLevel<-as.numeric(thr$datashield.privacyLevel)        #
+# DataSHIELD MODULE: CAPTURE THE nfilter SETTINGS
+thr <- listDisclosureSettingsDS.o()
+#nfilter.tab <- as.numeric(thr$nfilter.tab)
+#nfilter.glm <- as.numeric(thr$nfilter.glm)	
+nfilter.subset <- as.numeric(thr$nfilter.subset)
+nfilter.string <- as.numeric(thr$nfilter.string)
+nfilter.stringShort <- as.numeric(thr$nfilter.stringShort)
+#nfilter.kNN <- as.numeric(thr$nfilter.kNN)
+#datashield.privacyLevel <- as.numeric(thr$datashield.privacyLevel)
 #########################################################################
 
-
-#DISCLOSURE TRAPS
-df.text.chars<-strsplit(df.text,split="")
-if(length(df.text.chars[[1]])>nfilter.stringShort){
-   studysideMessage<-"df.text argument could hide active code - please use shorter name"
-   return(list(studysideMessage=studysideMessage))
+  # DISCLOSURE TRAPS
+  df.text.chars <- strsplit(df.text,split="")
+  if(length(df.text.chars[[1]])>nfilter.stringShort){
+    studysideMessage <- "df.text argument could hide active code - please use shorter name"
+    return(list(studysideMessage=studysideMessage))
   }
 
-
-sort.key.chars<-strsplit(sort.key.text,split="")
+  sort.key.chars <- strsplit(sort.key.text,split="")
 
   if(length(sort.key.chars[[1]])>nfilter.stringShort){
-   studysideMessage<-"sort.key.text argument could hide active code - please use shorter name"
-   return(list(studysideMessage=studysideMessage))
+    studysideMessage <- "sort.key.text argument could hide active code - please use shorter name"
+    return(list(studysideMessage=studysideMessage))
   }
 
-  
+  df.text2 <- paste0("data.frame(",df.text,")")
+  df2sort <- eval(parse(text=df.text2))
 
-   df.text2<-paste0("data.frame(",df.text,")")
-   df2sort <- eval(parse(text=df.text2))
+  sort.key <- eval(parse(text=sort.key.text))
 
-   sort.key<-eval(parse(text=sort.key.text))
-
-   if(dim(df2sort)[1]<nfilter.subset){
-   studysideMessage<-"specified data.frame to sort is shorter than minimum subset size"
-   return(list(studysideMessage=studysideMessage))
+  if(dim(df2sort)[1]<nfilter.subset){
+    studysideMessage <- "specified data.frame to sort is shorter than minimum subset size"
+    return(list(studysideMessage=studysideMessage))
   }
 
-   if(length(sort.key)<nfilter.subset){
-   studysideMessage<-"specified sort.key variable is shorter than minimum subset size"
-   return(list(studysideMessage=studysideMessage))
+  if(length(sort.key)<nfilter.subset){
+    studysideMessage <- "specified sort.key variable is shorter than minimum subset size"
+    return(list(studysideMessage=studysideMessage))
   }
-    
    
-   if(sort.alphabetic){sort.key<-as.character(sort.key)}
-   if(sort.numeric){sort.key<-as.numeric(sort.key)}
+  if(sort.alphabetic){
+    sort.key <- as.character(sort.key)
+  }
+  if(sort.numeric){
+    sort.key <- as.numeric(sort.key)
+  } 
    
+  key.order <- order(sort.key)
    
-   key.order<-order(sort.key)
-   
-   
-   df.sorted<-df2sort[key.order,]
+  df.sorted <- df2sort[key.order,]
 
-   if(sort.descending)
-   {
-   key.rev.order<-length(key.order):1
-   df.sorted<-df.sorted[key.rev.order,]
-   }
+  if(sort.descending){
+    key.rev.order <- length(key.order):1
+    df.sorted <- df.sorted[key.rev.order,]
+  }
    
-   return(df.sorted)
+  return(df.sorted)
 
- }  
-#ASSIGN FUNCTION
+}  
+# ASSIGN FUNCTION
 # dataFrameSortDS.o
-
