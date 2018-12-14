@@ -54,12 +54,12 @@
 #' will return the message: "ALL OK: there are no studysideMessage(s) on this datasource".
 #' @author DataSHIELD Development Team
 #' @export
-
-recodeValuesDS2.o<-function(var.name.text=NULL, values2replace.text=NULL, new.values.text=NULL,numeric.output.format.possible,force.output.format="no",v2r.numeric=NULL){
+#'
+recodeValuesDS2.o <- function(var.name.text=NULL, values2replace.text=NULL, new.values.text=NULL,numeric.output.format.possible,force.output.format="no",v2r.numeric=NULL){
 
 #############################################################
 #MODULE 1: CAPTURE THE nfilter SETTINGS                     #
-thr<-.AGGREGATE$listDisclosureSettingsDS.o()				#
+thr <- listDisclosureSettingsDS.o()				#
 #nfilter.tab<-as.numeric(thr$nfilter.tab)					#
 #nfilter.glm<-as.numeric(thr$nfilter.glm)					#
 nfilter.subset<-as.numeric(thr$nfilter.subset)          	#
