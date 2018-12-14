@@ -38,29 +38,27 @@
 #' in the call to ds.glmSLMA.o
 #' @author Burton PR
 #' @export
-glmSLMADS2.o<-function (formula, family, offset, weights, dataName) {
+#'
+glmSLMADS2.o <- function(formula, family, offset, weights, dataName){
 
 #############################################################
 #MODULE 1: CAPTURE THE nfilter SETTINGS                     #
-thr<-.AGGREGATE$listDisclosureSettingsDS.o()				#
+thr <- listDisclosureSettingsDS.o()				#
 nfilter.tab<-as.numeric(thr$nfilter.tab)					#
 nfilter.glm<-as.numeric(thr$nfilter.glm)					#
 #nfilter.subset<-as.numeric(thr$nfilter.subset)         	#
 #nfilter.string<-as.numeric(thr$nfilter.string)             #
 #############################################################
 
-
-
-
-errorMessage2<-"No errors"
-# Get the value of the 'data' parameter provided as character on the client side
-# Same is done for offset and weights lower down function
+  errorMessage2 <- "No errors"
+  # Get the value of the 'data' parameter provided as character on the client side
+  # Same is done for offset and weights lower down function
 
   if(!is.null(dataName)){
     dataDF <- eval(parse(text=dataName))
   }else{
-	dataDF<-NULL
-	}
+    dataDF <- NULL
+  }
 
  
 # Rewrite formula extracting variables nested in strutures like data frame or list
@@ -80,8 +78,6 @@ errorMessage2<-"No errors"
   formulatext <- gsub("+", "|", formulatext, fixed=TRUE)
   formulatext <- gsub("*", "|", formulatext, fixed=TRUE)
   formulatext <- gsub("||", "|", formulatext, fixed=TRUE)
-
-
 
 
 #Remember model.variables and then varnames INCLUDE BOTH yvect AND linear predictor components 
@@ -131,9 +127,6 @@ all.data <- eval(parse(text=cbindraw.text))
 	Nmissing<-Ntotal-Nvalid
 
 
- 
-
-
 formula2use <- as.formula(paste0(Reduce(paste, deparse(originalFormula)))) # here we need the formula as a 'call' object
 
 
@@ -169,11 +162,8 @@ outlist<-list(rank=mg$rank, aic=mg$aic,
 			 formula=mg$formula, family=mg$family,coefficients=summary(mg)$coefficients)
 
 
-return(outlist)
+  return(outlist)
 
 }
-#AGGREGATE FUNCTION
+# AGGREGATE FUNCTION
 # glmSLMADS2.o
-
-
-
