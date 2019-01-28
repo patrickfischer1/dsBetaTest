@@ -88,7 +88,7 @@ return(MESSAGE=out.obj)
 }
 #AGGREGATE FUNCTION
 # messageDS.o
-=======
+
 function(message.object.name) 
 {
 #############################################################
