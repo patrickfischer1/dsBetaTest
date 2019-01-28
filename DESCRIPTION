@@ -24,7 +24,8 @@ AggregateMethods: meanSdGpDS,
     testObjExistsDS.o,
     listDisclosureSettingsDS.o,
 	  dataFrameSubsetDS1.o,
-	  glmDSSLMA2.o
+	  glmDSSLMA2.o,
+    messageDS.o
 AssignMethods: lexisDS2.o,
     lexisDS3.o,
     asFactorDS2.o,
