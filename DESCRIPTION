@@ -23,17 +23,18 @@ AggregateMethods: meanSdGpDS,
     rilmDS.b,
     testObjExistsDS.o,
     listDisclosureSettingsDS.o,
-	  dataFrameSubsetDS1.o,
-	  glmDSSLMA2.o,
-    messageDS.o
+    dataFrameSubsetDS1.o,
+    glmDSSLMA2.o,
+    messageDS.o,
+    setSeedDS.o
 AssignMethods: lexisDS2.o,
     lexisDS3.o,
     asFactorDS2.o,
     BooleDS.o,
     recodeValuesDS2.o,
-  	dataFrameDS.o,
-	  dataFrameSortDS.o,
-	  dataFrameSubsetDS2.o
+    dataFrameDS.o,
+    dataFrameSortDS.o,
+    dataFrameSubsetDS2.o
 Options:
     nfilter.glm=0.37,
     nfilter.kNN=3,
