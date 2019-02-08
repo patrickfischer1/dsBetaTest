@@ -1,6 +1,6 @@
 Package: dsBetaTest
 Title: New DataSHIELD Server Functions
-Version: 0.3.0
+Version: 0.3.1
 Author: DataSHIELD Developers <datashield@newcastle.ac.uk>
 Maintainer: DataSHIELD Developers <datashield@newcastle.ac.uk>
 Description: Beta versions of new DataSHIELD server functions. Collected in this
@@ -19,6 +19,7 @@ AggregateMethods: meanSdGpDS,
     covDS.o,
     asFactorDS1.o,
     meanDS.o,
+    meanSdGpDS,
     recodeValuesDS1.o,
     rilmDS.b,
     testObjExistsDS.o,
@@ -38,7 +39,11 @@ AssignMethods: lexisDS2.o,
     dataFrameSubsetDS2.o,
     tapplyDS.assign.o,
     seqDS.o,
-    reShapeDS.o
+    reShapeDS.o,
+    rNormDS.o,
+    rPoisDS.o,
+    rBinomDS.o,
+    rUnifDS.o
 Options:
     nfilter.glm=0.37,
     nfilter.kNN=3,
