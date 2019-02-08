@@ -24,7 +24,7 @@
 #' also returns a vector reporting the length of the pseudorandom vector
 #' created in each source.
 #' @author Paul Burton for DataSHIELD Development Team
-#' export
+#' @export
 rBinomDS.o<-function (n, size = 1, prob = 0.5){ 
 
 #If size or prob are defined by serverside vectors
