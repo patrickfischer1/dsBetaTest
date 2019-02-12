@@ -29,7 +29,7 @@
 #' also returns a vector reporting the length of the pseudorandom vector
 #' created in each source.
 #' @author Paul Burton for DataSHIELD Development Team
-#' export
+#' @export
 rNormDS.o<-function (n, mean = 0, sd = 1, force.output.to.k.decimal.places=9){ 
 
 #If mean or sd are defined by serverside vectors

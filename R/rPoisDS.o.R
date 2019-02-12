@@ -20,7 +20,7 @@
 #' also returns a vector reporting the length of the pseudorandom vector
 #' created in each source.
 #' @author Paul Burton for DataSHIELD Development Team
-#' export
+#' @export
 rPoisDS.o<-function (n, lambda = 1){ 
 
 #If lambda is defined by a serverside vector
