@@ -1,4 +1,14 @@
-function(x.name.transmit)			 			 
+#'
+#' @title Perform removal 
+#' @description Perform removal.
+#' @details Remove R object from server.
+#' @param x.name.transmit
+#' @return list of removed objects
+#' @author Burton PR
+#' @export
+#'
+
+rmDS.o <- function(x.name.transmit)			 			 
 {
 #########################################################################
 # DataSHIELD MODULE: CAPTURE THE nfilter SETTINGS           			#
