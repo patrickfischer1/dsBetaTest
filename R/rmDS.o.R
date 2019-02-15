@@ -7,19 +7,18 @@
 #' @author Burton PR
 #' @export
 #'
-
-rmDS.o <- function(x.name.transmit)			 			 
+rmDS.o <- function(x.name.transmit)
 {
 #########################################################################
-# DataSHIELD MODULE: CAPTURE THE nfilter SETTINGS           			#
-thr<-.AGGREGATE$listDisclosureSettingsDS.o()							#
-#nfilter.tab<-as.numeric(thr$nfilter.tab)								#
-#nfilter.glm<-as.numeric(thr$nfilter.glm)								#
-#nfilter.subset<-as.numeric(thr$nfilter.subset)          				#
-#nfilter.string<-as.numeric(thr$nfilter.string)              			#
-nfilter.stringShort<-as.numeric(thr$nfilter.stringShort)    			#
-#nfilter.kNN<-as.numeric(thr$nfilter.kNN)								#
-#datashield.privacyLevel<-as.numeric(thr$datashield.privacyLevel)        #
+# DataSHIELD MODULE: CAPTURE THE nfilter SETTINGS                       #
+thr<-.AGGREGATE$listDisclosureSettingsDS.o()				#
+#nfilter.tab<-as.numeric(thr$nfilter.tab)				#
+#nfilter.glm<-as.numeric(thr$nfilter.glm)				#
+#nfilter.subset<-as.numeric(thr$nfilter.subset)                         #
+#nfilter.string<-as.numeric(thr$nfilter.string)                         #
+nfilter.stringShort<-as.numeric(thr$nfilter.stringShort)                #
+#nfilter.kNN<-as.numeric(thr$nfilter.kNN)			        #
+#datashield.privacyLevel<-as.numeric(thr$datashield.privacyLevel)       #
 #########################################################################
 
 #manage x.name
@@ -65,4 +64,3 @@ return(return.message=return.message,x.name=x.name)
 }
 #AGGREGATE FUNCTION
 # rmDS.o
-
