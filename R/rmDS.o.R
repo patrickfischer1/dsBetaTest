@@ -7,8 +7,7 @@
 #' @author Burton PR
 #' @export
 #'
-rmDS.o <- function(x.name.transmit)
-{
+rmDS.o <- function(x.name.transmit){
 #########################################################################
 # DataSHIELD MODULE: CAPTURE THE nfilter SETTINGS                       #
 thr<-.AGGREGATE$listDisclosureSettingsDS.o()				#
