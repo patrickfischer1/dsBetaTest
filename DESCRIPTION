@@ -28,7 +28,8 @@ AggregateMethods: meanSdGpDS,
     glmDSSLMA2.o,
     messageDS.o,
     setSeedDS.o,
-    tapplyDS.o
+    tapplyDS.o,
+    rmDS.o
 AssignMethods: lexisDS2.o,
     lexisDS3.o,
     asFactorDS2.o,
