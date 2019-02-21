@@ -1,9 +1,19 @@
-function(message.object.name) 
-{
+#'
+#' @title messageDS.o
+#' @description This function allows for error messages arising from the 
+#' running of a server-side assign function to be returned to the client-side
+#' @param message.obj is a character string, containing the name of the list containing the
+#' message. See the header of the client-side function ds.message.o for more details.
+#' #' @return a list object from each study, containing whatever message has been written by
+#' DataSHIELD into $studysideMessage.
+#' @author Burton PR
+#' @export
+#' 
+messageDS.o <- function(message.object.name){
 
 #############################################################
 #MODULE 1: CAPTURE THE nfilter SETTINGS                     #
-thr<-.AGGREGATE$listDisclosureSettingsDS.o()				#
+thr<-listDisclosureSettingsDS.o()				#
 #nfilter.tab<-as.numeric(thr$nfilter.tab)					#
 #nfilter.glm<-as.numeric(thr$nfilter.glm)					#
 nfilter.subset<-as.numeric(thr$nfilter.subset)          	#
