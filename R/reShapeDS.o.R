@@ -1,12 +1,12 @@
 #' 
 #' @title reShapeDS.o called by ds.reShape.o
 #' @description An assign serverside function that reshapes a given data frame between wide and long formats.
-#' @details This function reshapes a data frame between ‘wide’ format with repeated
-#' measurements in separate columns of the same record and ‘long’ format with the repeated
+#' @details This function reshapes a data frame between 'wide' format with repeated
+#' measurements in separate columns of the same record and 'long' format with the repeated
 #' measurements in separate records and assign it at the servers. 
 #' @param data.name, the name of the data frame.
 #' @param varying.transmit, names of sets of variables in the wide format that correspond to single
-#' variables in long format (‘time-varying’).
+#' variables in long format ('time-varying').
 #' @param v.names.transmit, the names of variables in the long format that correspond to multiple variables
 #' in the wide format
 #' @param timevar.name, the name of the variable in long format that differentiates multiple records from the same
