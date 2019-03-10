@@ -1,13 +1,19 @@
 #'
-#' @title Computes statistical mean of a vectores
-#' @description Some text.
-#' @details Some text.
-#' @param xvect a vector
-#' @param yvect a vector
-#' @return output table and message
-#' @author Avraam D., Burton PR.
+#' @title Creates 2-dimensional contingency tables
+#' @description This function generates a 2-dimensional table where potentially disclosive cells
+#' (based on the set threshold) are replaced by a missing value ('NA').
+#' @details It generates a 2-dimensional tables where valid (non-disclosive) 2-dimensional tables are defined 
+#' as data from sources where no table cells have counts between 1 and the set threshold. When the ouput table
+#' is invalid all cells but the total counts are replaced by missing values. Only the total counts are visible 
+#' on the table returned to the client site. A message is also returned with the 2-dimensional table; the message 
+#' says "invalid table - invalid counts present" if the table is invalid and 'valid table' otherwise.
+#' @param xvect a numerical vector with discrete values - usually a factor.
+#' @param yvect a numerical vector with discrete values - usually a factor.
+#' @return a list which contains two elements: 'table', the 1-dimensional table and 'message' a message which
+#' informs about the validity of the table.
+#' @author Gaye A., Avraam D., Burton PR.
 #' @export
-#'
+#' 
 
 table2DDS.o <- function(xvect,yvect){
 
