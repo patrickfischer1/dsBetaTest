@@ -1,34 +1,31 @@
 #'
-#' @title Creates 2-dimensional contingency tables
-#' @description This function generates a 2-dimensional table where potentially disclosive cells
-#' (based on the set threshold) are replaced by a missing value ('NA').
-#' @details It generates a 2-dimensional tables where valid (non-disclosive) 2-dimensional tables are defined 
-#' as data from sources where no table cells have counts between 1 and the set threshold. When the ouput table
-#' is invalid all cells but the total counts are replaced by missing values. Only the total counts are visible 
-#' on the table returned to the client site. A message is also returned with the 2-dimensional table; the message 
+#' @title table2DDS.o (aggregate function) called by ds.table2D.o
+#' @description This function generates a 2-dimensional contingency table where potentially disclosive cells
+#' (based on a set threshold) are replaced by a missing value ('NA').
+#' @details It generates 2-dimensional contingency tables where valid (non-disclosive) tables are defined 
+#' as those where none of their cells have counts between 1 and the set threshold "nfilter.tab". When the ouput table
+#' is invalid all cells except the total counts are replaced by missing values. Only the total counts are visible 
+#' on the table returned to the client side. A message is also returned with the 2-dimensional table; the message 
 #' says "invalid table - invalid counts present" if the table is invalid and 'valid table' otherwise.
 #' @param xvect a numerical vector with discrete values - usually a factor.
 #' @param yvect a numerical vector with discrete values - usually a factor.
-#' @return a list which contains two elements: 'table', the 1-dimensional table and 'message' a message which
+#' @return a list which contains two elements: 'table', the 2-dimensional table and 'message' a message which
 #' informs about the validity of the table.
-#' @author Gaye A., Avraam D., Burton PR.
+#' @author Amadou Gaye, Paul Burton, Demetris Avraam for DataSHIELD Development Team
 #' @export
 #' 
-
 table2DDS.o <- function(xvect,yvect){
 
-#############################################################
-#MODULE 1: CAPTURE THE nfilter SETTINGS                     #
-#OLD DEV PLATFORM thr<-.AGGREGATE$listDisclosureSettingsDS.o()				
-#WHEN IMPORTED FROM GitHub thr<-listDisclosureSettingsDS.o()#
-thr<-dsBetaTest::listDisclosureSettingsDS.o()				#
-nfilter.tab<-as.numeric(thr$nfilter.tab)					#
-#nfilter.glm<-as.numeric(thr$nfilter.glm)					#
-#nfilter.subset<-as.numeric(thr$nfilter.subset)             #
-#nfilter.string<-as.numeric(thr$nfilter.string)             #
-#nfilter.stringShort<-as.numeric(thr$nfilter.stringShort)   #
-#nfilter.kNN<-as.numeric(thr$nfilter.kNN)                   #
-#############################################################
+  #############################################################
+  #MODULE 1: CAPTURE THE nfilter SETTINGS
+  thr <- listDisclosureSettingsDS.o()
+  nfilter.tab <- as.numeric(thr$nfilter.tab)
+  #nfilter.glm<-as.numeric(thr$nfilter.glm)
+  #nfilter.subset<-as.numeric(thr$nfilter.subset)
+  #nfilter.string<-as.numeric(thr$nfilter.string)
+  #nfilter.stringShort<-as.numeric(thr$nfilter.stringShort)
+  #nfilter.kNN<-as.numeric(thr$nfilter.kNN)
+  #############################################################
 
   # tabulate the input vector and output the result in a data frame format
   aa <- table(xvect, yvect)
@@ -58,7 +55,7 @@ nfilter.tab<-as.numeric(thr$nfilter.tab)					#
 
   # return output table and message
   return(list(table=cc, message=validity))
+  
 }
-#AGGREGATE
+#AGGREGATE FUNCTION
 # table2DDS.o
-
