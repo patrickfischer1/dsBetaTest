@@ -1,5 +1,5 @@
 #'
-#' @title Computes statistical mean of a vectores
+#' @title Computes statistical mean of a vectors
 #' @description Calculates the mean value.
 #' @details if the length of input vector is less than the set filter
 #' a missing value is returned. 
