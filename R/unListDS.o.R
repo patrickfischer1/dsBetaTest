@@ -26,7 +26,7 @@
 #' <x.name>.mat) which is written to the serverside.
 #' In addition, two validity messages are returned. The first confirms an output
 #' object has been created, the second states its class.
-#' @authors Amadou Gaye, Paul Burton for DataSHIELD Development Team
+#' @author Amadou Gaye, Paul Burton for DataSHIELD Development Team
 #' @export
 unListDS.o <- function(x.name,recursive,newobj){
 

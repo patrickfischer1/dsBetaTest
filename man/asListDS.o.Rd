@@ -32,3 +32,6 @@ function as an aggregate function works around this problem.
 This aggregate function is based on the native R function {as.list}
 and so additional information can be found in the help for {as.list}
 }
+\author{
+Amadou Gaye, Paul Burton for DataSHIELD Development Team
+}
