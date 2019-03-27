@@ -31,7 +31,10 @@ AggregateMethods: meanSdGpDS,
     tapplyDS.o,
     rmDS.o,
     asListDS.o,
-    unListDS.o
+    unListDS.o,
+    dimDS.o,
+    varDS.o,
+    lengthDS.o
 AssignMethods: lexisDS2.o,
     lexisDS3.o,
     asFactorDS2.o,

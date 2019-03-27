@@ -75,3 +75,6 @@ values in defined vectors in each data.frame
 For further information see details of the native R function {merge}
 and the DataSHIELD clientside function {ds.merge.o}.
 }
+\author{
+Amadou Gaye, Paul Burton, for DataSHIELD Development Team
+}
