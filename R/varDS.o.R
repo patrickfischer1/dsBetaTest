@@ -12,7 +12,7 @@ varDS.o <- function(xvect){
 
   #############################################################
   # MODULE 1: CAPTURE THE nfilter SETTINGS
-  thr <- dsBetaTest::listDisclosureSettingsDS.o()
+  thr <- listDisclosureSettingsDS.o()
   nfilter.tab <- as.numeric(thr$nfilter.tab)
   #nfilter.glm <- as.numeric(thr$nfilter.glm)
   #nfilter.subset <- as.numeric(thr$nfilter.subset)
