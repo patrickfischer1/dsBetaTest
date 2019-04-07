@@ -11,7 +11,8 @@ Depends:
     dsStats,
     dsGraphics,
     dsModelling
-AggregateMethods: meanSdGpDS,
+AggregateMethods:
+	meanSdGpDS,
     tTestFDS2,
     lexisDS1.o,
     glmDS1.o,

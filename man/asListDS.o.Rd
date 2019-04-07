@@ -11,6 +11,9 @@ asListDS.o(x.name, newobj)
 data.matrix. Must be specified in inverted commas. But this argument is
 usually specified directly by <x.name> argument of the clientside function
 {ds.asList.o}}
+
+\item{newobj}{is the object hard assigned '<<-' to be the output of the
+function written to the serverside}
 }
 \value{
 the object specified by the <newobj> argument (or its default name
