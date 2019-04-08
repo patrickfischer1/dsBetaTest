@@ -20,10 +20,10 @@
 #' whether or not the input variables pass the disclosure control (i.e. none of them is dichotomous with a level
 #' having less counts than the pre-specified threshold). If any of the input variables does not pass the disclosure
 #' control then all the output values are replaced with NAs
-#' @author Gaye A., Avraam D., Burton P.
+#' @author Gaye A., Avraam D., Burton P., Fischer P.
 #' @export
 #' 
-covDS.PF <- function(x=NULL, y=NULL, use=NULL){
+covDS.o <- function(x=NULL, y=NULL, use=NULL){
   
   #############################################################
   #MODULE 1: CAPTURE THE nfilter SETTINGS
