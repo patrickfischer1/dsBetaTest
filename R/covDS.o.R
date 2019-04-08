@@ -23,8 +23,8 @@
 #' @author Gaye A., Avraam D., Burton P.
 #' @export
 #' 
-covDS.o <- function(x=NULL, y=NULL, use=NULL){
-	
+covDS.PF <- function(x=NULL, y=NULL, use=NULL){
+  
   #############################################################
   #MODULE 1: CAPTURE THE nfilter SETTINGS
   thr <- listDisclosureSettingsDS.o()
@@ -33,48 +33,48 @@ covDS.o <- function(x=NULL, y=NULL, use=NULL){
   #nfilter.subset <- as.numeric(thr$nfilter.subset)
   #nfilter.string <- as.numeric(thr$nfilter.string)
   #############################################################
-
+  
   # create a data frame for the variables
   if (is.null(y)){
     dataframe <- as.data.frame(x)
   }else{
     dataframe <- as.data.frame(cbind(x,y))
   }
-
+  
   # names of the variables
   cls <- colnames(dataframe)
-
+  
   # number of the input variables
   N.vars <- dim(dataframe)[2]
- 
+  
   
   ######################
   # DISCLOSURE CONTROL # 
   ######################
-
+  
   # CHECK X MATRIX VALIDITY 
   # Check no dichotomous X vectors with between 1 and filter.threshold 
   # observations at either level 
-    
+  
   X.mat <- as.matrix(dataframe)
   
   dimX <- dim((X.mat))
-
+  
   num.Xpar <- dimX[2]
-
+  
   Xpar.invalid <- rep(0, num.Xpar)
-
+  
   for(pj in 1:num.Xpar){
     unique.values.noNA <- unique((X.mat[,pj])[complete.cases(X.mat[,pj])]) 
     if(length(unique.values.noNA)==2){
       tabvar <- table(X.mat[,pj])[table(X.mat[,pj])>=1] #tabvar COUNTS N IN ALL CATEGORIES WITH AT LEAST ONE OBSERVATION
       min.category <- min(tabvar)
       if(min.category < nfilter.tab){
-	Xpar.invalid[pj] <- 1
+        Xpar.invalid[pj] <- 1
       }
     }
   }	
-	
+  
   # if any of the vectors in X matrix is invalid then the function returns all the
   # outputs by replacing their values with NAs
   
@@ -83,197 +83,185 @@ covDS.o <- function(x=NULL, y=NULL, use=NULL){
     sums.of.products <- matrix(NA, ncol=N.vars, nrow=N.vars)
     rownames(sums.of.products) <- cls
     colnames(sums.of.products) <- cls 
-	
+    
     sums <- matrix(NA, ncol=1, nrow=N.vars)
     rownames(sums) <- cls
-	
+    
     complete.counts <- matrix(NA, ncol=N.vars, nrow=N.vars)
     rownames(complete.counts) <- cls
     colnames(complete.counts) <- cls 
-	
+    
     column.NAs <- matrix(NA, ncol=N.vars, nrow=1)
     colnames(column.NAs) <- cls
-
+    
     casewise.NAs <- matrix(NA, ncol=1, nrow=1)
-	
+    
     pairwise.NAs <- matrix(NA, ncol=N.vars, nrow=N.vars)
     rownames(pairwise.NAs) <- cls
     colnames(pairwise.NAs) <- cls 
     
     if (use=='casewise.complete'){
-	na.counts <- list(column.NAs, casewise.NAs)
+      na.counts <- list(column.NAs, casewise.NAs)
       names(na.counts) <- list(paste0("Number of NAs in each column"), paste0("Number of NAs casewise"))
     }
     if (use=='pairwise.complete'){
-	na.counts <- list(column.NAs, pairwise.NAs)
-	names(na.counts) <- list(paste0("Number of NAs in each column"), paste0("Number of NAs pairwise"))
+      na.counts <- list(column.NAs, pairwise.NAs)
+      names(na.counts) <- list(paste0("Number of NAs in each column"), paste0("Number of NAs pairwise"))
     }
-
-    errorMessage <- "ERROR: at least one variable is binary with one category less than the filter threshold for table cell size"
-  
-  }	
-
-  # if all vectors in X matrix are valid then the output matrices are calculated
-
-  if(is.element('1', Xpar.invalid)==FALSE){
- 
-  if (use=='casewise.complete'){
-  
-    # calculate the number of NAs in each variable separately
-    column.NAs <- matrix(ncol=N.vars, nrow=1)
-    colnames(column.NAs) <- cls
-    for(i in 1:N.vars){
-	column.NAs[1,i] <- length(dataframe[,i])-length(dataframe[complete.cases(dataframe[,i]),i])
-    }
-	
-    # if use is casewise.complete first remove any rows from the dataframe that include NAs
-    casewise.dataframe <- dataframe[complete.cases(dataframe),]
     
-    # calculate the number of NAs casewise
-    casewise.NAs <- as.matrix(dim(dataframe)[1]-dim(casewise.dataframe)[1])
-	
-    # counts for NAs to be returned to the client:
-    # This is a list with (a) a vector with the number of NAs in each variable (i.e. in each column) 
-    # separately and (b) the number of NAs casewise (i.e. the number of rows deleted from the input dataframe 
-    # which are the rows that at least one of their cells includes missing value)
-    na.counts <- list(column.NAs, casewise.NAs)
-    names(na.counts) <- list(paste0("Number of NAs in each column"), paste0("Number of NAs casewise"))
-	
-    # A matrix with elements the sum of products between each two variables
-    sums.of.products <- matrix(ncol=N.vars, nrow=N.vars)
-    rownames(sums.of.products) <- cls
-    colnames(sums.of.products) <- cls 
-    for(m in 1:N.vars){
-      for(p in 1:N.vars){
-        sums.of.products[m,p] <- sum(as.numeric(as.character(casewise.dataframe[,m]))*as.numeric(as.character(casewise.dataframe[,p])))
-      }
-    }
-
-    # A matrix with elements the sum of each variable 
-    sums <- matrix(ncol=1, nrow=N.vars)
-    rownames(sums) <- cls
-    for(m in 1:N.vars){
-      sums[m,1] <- sum(as.numeric(as.character(casewise.dataframe[,m])))      
-    }
-	
-	# A matrix with elements the sum of squares of each variable after removing missing values casewise
-    sums.of.squares <- matrix(ncol=N.vars, nrow=N.vars)
-    rownames(sums.of.squares) <- cls
-    colnames(sums.of.squares) <- cls 
-    for(m in 1:N.vars){
-      for(p in 1:N.vars){
-        sums.of.squares[m,p] <- sum(as.numeric(as.character(casewise.dataframe[,m]))*as.numeric(as.character(casewise.dataframe[,m])))
-      }
-    }
-
-    # Calculate the variance of each variable after removing missing values casewise
-    vars <- matrix(ncol=1, nrow=N.vars)
-    rownames(sums) <- cls
-    for(m in 1:N.vars){
-      vars[m,1] <- var(as.numeric(as.character(casewise.dataframe[,m])))
-    }		
-	
-    complete.counts <- matrix(dim(casewise.dataframe)[1], ncol=N.vars, nrow=N.vars)
-    rownames(complete.counts) <- cls
-    colnames(complete.counts) <- cls 
-
-  } 
+    errorMessage <- "ERROR: at least one variable is binary with one category less than the filter threshold for table cell size"
+    
+  }	
   
-  if (use=='pairwise.complete'){
-
-    # create dataframes for each pair of variables. (Note: If the number of variables is N.vars, then the number of pairs is N.vars^2)
-    pair <- list()
-    cleaned.pair <- list()
-    for(i in 1:N.vars){
-      pair[[i]] <- list()
-      cleaned.pair[[i]] <- list()
-      for(j in 1:N.vars){
-	    pair[[i]][[j]] <- as.data.frame(cbind(dataframe[,i], dataframe[,j]))
-        cleaned.pair[[i]][[j]] <- as.data.frame(pair[[i]][[j]][complete.cases(pair[[i]][[j]]),]) 
-      } 
-    }	
+  # if all vectors in X matrix are valid then the output matrices are calculated
   
-    # calculate the number of NAs in each variable separately
-    column.NAs <- matrix(ncol=N.vars, nrow=1)
-    colnames(column.NAs) <- cls
-    for(i in 1:N.vars){
-	  column.NAs[1,i] <- length(dataframe[,i])-length(dataframe[complete.cases(dataframe[,i]),i])
-    }
-   
-    # calculate the number of NAs in each pair of variables
-    pairwise.NAs <- matrix(ncol=N.vars, nrow=N.vars)
-    rownames(pairwise.NAs) <- cls
-    colnames(pairwise.NAs) <- cls 
-    for(i in 1:N.vars){
-	for(j in 1:N.vars){
-	  pairwise.NAs[i,j] <- dim(pair[[i]][[j]])[1]-dim(cleaned.pair[[i]][[j]])[1]
-	} 
+  if(is.element('1', Xpar.invalid)==FALSE){
+    
+    if (use=='casewise.complete'){
+      
+      # calculate the number of NAs in each variable separately
+      column.NAs <- matrix(ncol=N.vars, nrow=1)
+      colnames(column.NAs) <- cls
+      for(i in 1:N.vars){
+        column.NAs[1,i] <- length(dataframe[,i])-length(dataframe[complete.cases(dataframe[,i]),i])
+      }
+      
+      # if use is casewise.complete first remove any rows from the dataframe that include NAs
+      casewise.dataframe <- dataframe[complete.cases(dataframe),]
+      
+      # calculate the number of NAs casewise
+      casewise.NAs <- as.matrix(dim(dataframe)[1]-dim(casewise.dataframe)[1])
+      
+      # counts for NAs to be returned to the client:
+      # This is a list with (a) a vector with the number of NAs in each variable (i.e. in each column) 
+      # separately and (b) the number of NAs casewise (i.e. the number of rows deleted from the input dataframe 
+      # which are the rows that at least one of their cells includes missing value)
+      na.counts <- list(column.NAs, casewise.NAs)
+      names(na.counts) <- list(paste0("Number of NAs in each column"), paste0("Number of NAs casewise"))
+      
+      # A matrix with elements the sum of products between each two variables
+      sums.of.products <- matrix(ncol=N.vars, nrow=N.vars)
+      rownames(sums.of.products) <- cls
+      colnames(sums.of.products) <- cls 
+      for(m in 1:N.vars){
+        for(p in 1:N.vars){
+          sums.of.products[m,p] <- sum(as.numeric(as.character(casewise.dataframe[,m]))*as.numeric(as.character(casewise.dataframe[,p])))
+        }
+      }
+      
+      # A matrix with elements the sum of each variable 
+      sums <- matrix(ncol=1, nrow=N.vars)
+      rownames(sums) <- cls
+      for(m in 1:N.vars){
+        sums[m,1] <- sum(as.numeric(as.character(casewise.dataframe[,m])))      
+      }
+      
+      # A matrix with elements the sum of squares of each variable after removing missing values casewise
+      sums.of.squares <- matrix(ncol=N.vars, nrow=N.vars)
+      rownames(sums.of.squares) <- cls
+      colnames(sums.of.squares) <- cls 
+      for(m in 1:N.vars){
+        for(p in 1:N.vars){
+          sums.of.squares[m,p] <- sum(as.numeric(as.character(casewise.dataframe[,m]))*as.numeric(as.character(casewise.dataframe[,m])))
+        }
+      }
+      
+      # Calculate the variance of each variable after removing missing values casewise
+      vars <- matrix(ncol=1, nrow=N.vars)
+      rownames(sums) <- cls
+      for(m in 1:N.vars){
+        vars[m,1] <- var(as.numeric(as.character(casewise.dataframe[,m])))
+      }		
+      
+      complete.counts <- matrix(dim(casewise.dataframe)[1], ncol=N.vars, nrow=N.vars)
+      rownames(complete.counts) <- cls
+      colnames(complete.counts) <- cls 
+      
     } 
-	  
-    # counts for NAs to be returned to the client:
-    # This is a list with (a) a vector with the number of NAs in each variable (i.e. in each column) 
-    # separately and (b) a matrix with the number of NAs in each pair of variables
-    na.counts <- list(column.NAs, pairwise.NAs)
-    names(na.counts) <- list(paste0("Number of NAs in each column"), paste0("Number of NAs pairwise"))
-		
-    # A matrix with elements the sum of products between each two variables
-    sums.of.products <- matrix(ncol=N.vars, nrow=N.vars)
-    rownames(sums.of.products) <- cls
-    colnames(sums.of.products) <- cls 
-    for(m in 1:N.vars){
-      for(p in 1:N.vars){
-        sums.of.products[m,p] <- sum(as.numeric(as.character(cleaned.pair[[m]][[p]][,1]))*as.numeric(as.character(cleaned.pair[[m]][[p]][,2])))
+    
+    if (use=='pairwise.complete'){
+      
+      
+      cmpCases <- cmpCases <- matrix(nrow = dim(x)[1], ncol = dim(x)[2])
+      for(i in 1:N.vars) {
+        
+        cmpCases[, i] <- complete.cases(dataframe[, i])
       }
-    }
-	
-    # A matrix with elements the sum of each variable 
-    sums <- matrix(ncol=N.vars, nrow=N.vars)
-    rownames(sums) <- cls
-    colnames(sums) <- cls
-    for(m in 1:N.vars){
-	for(p in 1:N.vars){
-        sums[m,p] <- sum(as.numeric(as.character(cleaned.pair[[m]][[p]][,1])))
-      }		
-    }
-
-	# A matrix with elements the sum of squares of each variable after removing missing values pairwise
-    sums.of.squares <- matrix(ncol=N.vars, nrow=N.vars)
-    rownames(sums.of.squares) <- cls
-    colnames(sums.of.squares) <- cls 
-    for(m in 1:N.vars){
-      for(p in 1:N.vars){
-        sums.of.squares[m,p] <- sum(as.numeric(as.character(cleaned.pair[[m]][[p]][,1]))*as.numeric(as.character(cleaned.pair[[m]][[p]][,1])))
+      
+      column.NAs <- colSums(!cmpCases)
+      column.NAs <- as.matrix(t(column.NAs))
+      
+      colnames(column.NAs) <- cls
+      
+      # calculate the number of NAs in each pair of variables
+      # calculate the number of complete cases in each pair of variables
+      # calculate the sum of products for each pair of variables
+      pairwise.NAs <- matrix(ncol=N.vars, nrow=N.vars)
+      complete.counts <- matrix(ncol=N.vars, nrow=N.vars)
+      sums.of.products <- matrix(ncol=N.vars, nrow=N.vars)
+      for(i in 1:N.vars){
+        for(j in i:N.vars){
+          # Identifying complete cases
+          pairWiseCases = cmpCases[, i] & cmpCases[, j]
+          
+          # Number of NAs is negation of pairwiseCases
+          pairwise.NAs[i,j] <- sum(!pairWiseCases)
+          pairwise.NAs[j,i] <- sum(!pairWiseCases)
+          
+          # Complete cases as sum of logical vector
+          complete.counts[i,j] <- sum(pairWiseCases)
+          complete.counts[j,i] <- sum(pairWiseCases)
+          
+          # Calulating pairwise product
+          sumOfProduct <- sum(x[pairWiseCases, i] * x[pairWiseCases, j])
+          sums.of.products[i,j] <- sumOfProduct
+          sums.of.products[j,i] <- sumOfProduct
+        } 
+      } 
+      
+      # counts for NAs to be returned to the client:
+      # This is a list with (a) a vector with the number of NAs in each variable (i.e. in each column) 
+      # separately and (b) a matrix with the number of NAs in each pair of variables
+      na.counts <- list(column.NAs, pairwise.NAs)
+      names(na.counts) <- list(paste0("Number of NAs in each column"), paste0("Number of NAs pairwise"))
+      
+      
+      # A matrix with elements the sum, sum of squares and variance of each variable
+      sums <- matrix(ncol=N.vars, nrow=1)
+      sums.of.squares <- matrix(ncol=N.vars, nrow=1)
+      vars <- matrix(ncol=N.vars, nrow=1)
+      for(m in 1:N.vars){
+        sums[1, m] <- sum(x[cmpCases[, m], m])
+        sums.of.squares[1, m] <- sum(x[cmpCases[, m], m] ^ 2)
+        vars[1, m] <- var(x[cmpCases[, m], m])
       }
+      
+      # Replication of row to have matrix
+      sums <- matrix(rep(sums,each = N.vars), nrow = N.vars, byrow = TRUE)
+      sums.of.squares <- matrix(rep(sums.of.squares,each = N.vars), nrow = N.vars, byrow = TRUE)
+      vars <- matrix(rep(vars,each = N.vars), nrow = N.vars, byrow = TRUE)
+      
+      
+      # Assigning variable names as row/colnames of results
+      rownames(sums.of.squares) <- cls
+      colnames(sums.of.squares) <- cls
+      rownames(sums) <- cls
+      colnames(sums) <- cls
+      rownames(complete.counts) <- cls
+      colnames(complete.counts) <- cls
+      rownames(sums.of.products) <- cls
+      colnames(sums.of.products) <- cls 
+      rownames(pairwise.NAs) <- cls
+      colnames(pairwise.NAs) <- cls
     }
-	
-    # Calculate the variance of each variable after removing missing values pairwise
-	vars <- matrix(ncol=N.vars, nrow=N.vars)
-    rownames(sums) <- cls
-    colnames(sums) <- cls
-    for(m in 1:N.vars){
-	  for(p in 1:N.vars){
-        vars[m,p] <- var(as.numeric(as.character(cleaned.pair[[m]][[p]][,1])))
-      }		
-    }
-	
-    complete.counts <- matrix(ncol=N.vars, nrow=N.vars)
-    rownames(complete.counts) <- cls
-    colnames(complete.counts) <- cls 
-    for(m in 1:N.vars){
-      for(p in 1:N.vars){
-        complete.counts[m,p] <- dim(cleaned.pair[[m]][[p]])[1]
-      }
-    }
-
-  }
-  
-  # if all vectors in X matrix are valid then a NA error message is returned
-  errorMessage <- NA 
-
+    
+    # if all vectors in X matrix are valid then a NA error message is returned
+    errorMessage <- NA 
+    
   }  
   
   return(list(sums.of.products=sums.of.products, sums=sums, complete.counts=complete.counts, na.counts=na.counts, errorMessage=errorMessage, vars=vars, sums.of.squares=sums.of.squares))
-
+  
 }
 #AGGREGATE FUNCTION
 # covDS.o
